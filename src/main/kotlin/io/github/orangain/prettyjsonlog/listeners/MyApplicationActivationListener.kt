@@ -1,4 +1,4 @@
-package com.github.orangain.prettyjsonlogplugin.listeners
+package io.github.orangain.prettyjsonlog.listeners
 
 import com.intellij.openapi.application.ApplicationActivationListener
 import com.intellij.openapi.diagnostic.thisLogger

@@ -1,4 +1,4 @@
-package com.github.orangain.prettyjsonlogplugin
+package io.github.orangain.prettyjsonlog
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls

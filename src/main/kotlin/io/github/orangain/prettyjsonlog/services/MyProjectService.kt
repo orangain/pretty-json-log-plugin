@@ -1,9 +1,9 @@
-package com.github.orangain.prettyjsonlogplugin.services
+package io.github.orangain.prettyjsonlog.services
 
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
-import com.github.orangain.prettyjsonlogplugin.MyBundle
+import io.github.orangain.prettyjsonlog.MyBundle
 
 @Service(Service.Level.PROJECT)
 class MyProjectService(project: Project) {
