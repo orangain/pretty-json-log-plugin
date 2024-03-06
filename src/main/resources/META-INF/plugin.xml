@@ -9,6 +9,7 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
+        <consoleInputFilterProvider implementation="io.github.orangain.prettyjsonlog.listeners.MyConsoleInputFilterProvider"/>
         <toolWindow factoryClass="io.github.orangain.prettyjsonlog.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
     </extensions>
 
