@@ -22,7 +22,7 @@ class MyConsoleInputFilterProvider : ConsoleInputFilterProvider {
 private val zoneId = ZoneId.systemDefault()
 private val timestampFormatter = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
 private val timestampKeys = listOf("timestamp", "time")
-private val levelKeys = listOf("level", "level")
+private val levelKeys = listOf("level", "severity")
 private val messageKeys = listOf("message", "msg")
 
 class MyConsoleInputFilter : InputFilter {
