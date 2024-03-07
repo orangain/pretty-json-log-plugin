@@ -1,6 +1,7 @@
 package io.github.orangain.prettyjsonlog.console
 
 import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.cfg.JsonNodeFeature
@@ -51,7 +52,7 @@ class MyConsoleInputFilter : InputFilter {
         val message = messageKey?.let { node.get(it) }
             ?.asText()
 
-        val jsonString = mapper.writeValueAsString(node)
+        val jsonString = writer.writeValueAsString(node)
 //        return mutableListOf(
 //            Pair("[$timestamp] ", contentType),
 //            Pair(level, contentTypeOf(level, contentType)),
@@ -70,6 +71,17 @@ private val jsonPattern = Regex("""^\s*\{.*}\s*$""")
 private val mapper = jacksonObjectMapper().apply {
     configure(SerializationFeature.INDENT_OUTPUT, true)
     configure(JsonNodeFeature.WRITE_PROPERTIES_SORTED, true)
+}
+private val writer = mapper.writer(MyPrettyPrinter())
+
+class MyPrettyPrinter : DefaultPrettyPrinter() {
+    init {
+        _objectFieldValueSeparatorWithSpaces = ": "
+    }
+
+    override fun createInstance(): DefaultPrettyPrinter {
+        return MyPrettyPrinter()
+    }
 }
 
 private fun parseJson(text: String): JsonNode? {
