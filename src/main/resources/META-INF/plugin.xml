@@ -11,6 +11,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <consoleInputFilterProvider
                 implementation="io.github.orangain.prettyjsonlog.console.MyConsoleInputFilterProvider"/>
+        <console.folding implementation="io.github.orangain.prettyjsonlog.console.MyConsoleFolding"/>
     </extensions>
 
     <applicationListeners>
