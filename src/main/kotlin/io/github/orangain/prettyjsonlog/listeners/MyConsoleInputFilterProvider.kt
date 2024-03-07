@@ -58,7 +58,8 @@ class MyConsoleInputFilter : InputFilter {
 //            Pair(message, ConsoleViewContentType.LOG_VERBOSE_OUTPUT),
 //        )
         return (listOf(
-            Pair("[$timestamp] $level: $message", contentTypeOf(level, contentType))
+            Pair("[$timestamp] ", contentType),
+            Pair("$level: $message", contentTypeOf(level, contentType)),
         ) + restKeys.map { Pair("\n    $it: ${node.get(it)}", contentType) }).toMutableList()
     }
 }
