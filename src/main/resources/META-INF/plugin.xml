@@ -10,7 +10,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <consoleInputFilterProvider
-                implementation="io.github.orangain.prettyjsonlog.listeners.MyConsoleInputFilterProvider"/>
+                implementation="io.github.orangain.prettyjsonlog.console.MyConsoleInputFilterProvider"/>
     </extensions>
 
     <applicationListeners>

@@ -1,4 +1,4 @@
-package io.github.orangain.prettyjsonlog.listeners
+package io.github.orangain.prettyjsonlog.console
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.JsonNode
