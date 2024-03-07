@@ -2,6 +2,8 @@ package io.github.orangain.prettyjsonlog.listeners
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.databind.cfg.JsonNodeFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.intellij.execution.filters.ConsoleInputFilterProvider
 import com.intellij.execution.filters.InputFilter
@@ -49,23 +51,26 @@ class MyConsoleInputFilter : InputFilter {
         val message = messageKey?.let { node.get(it) }
             ?.asText()
 
-        val restKeys = (keys - setOfNotNull(timestampKey, levelKey, messageKey)).sorted()
-
+        val jsonString = mapper.writeValueAsString(node)
 //        return mutableListOf(
 //            Pair("[$timestamp] ", contentType),
 //            Pair(level, contentTypeOf(level, contentType)),
 //            Pair(": ", contentType),
 //            Pair(message, ConsoleViewContentType.LOG_VERBOSE_OUTPUT),
 //        )
-        return (listOf(
+        return mutableListOf(
             Pair("[$timestamp] ", contentType),
             Pair("$level: $message", contentTypeOf(level, contentType)),
-        ) + restKeys.map { Pair("\n    $it: ${node.get(it)}", contentType) }).toMutableList()
+            Pair("\n$jsonString", contentType),
+        )
     }
 }
 
 private val jsonPattern = Regex("""^\s*\{.*}\s*$""")
-private val mapper = jacksonObjectMapper()
+private val mapper = jacksonObjectMapper().apply {
+    configure(SerializationFeature.INDENT_OUTPUT, true)
+    configure(JsonNodeFeature.WRITE_PROPERTIES_SORTED, true)
+}
 
 private fun parseJson(text: String): JsonNode? {
     if (!jsonPattern.matches(text)) {
