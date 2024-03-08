@@ -15,6 +15,7 @@ import com.intellij.openapi.util.Pair
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 class MyConsoleInputFilterProvider : ConsoleInputFilterProvider {
     override fun getDefaultFilters(project: Project): Array<InputFilter> {
@@ -43,12 +44,16 @@ class MyConsoleInputFilter : InputFilter {
 
         val timestamp = timestampKey?.let { node.get(it) }
             ?.asText()
-            ?.let { OffsetDateTime.parse(it).atZoneSameInstant(zoneId) }
-            ?.format(timestampFormatter)
+            ?.let {
+                try {
+                    OffsetDateTime.parse(it).atZoneSameInstant(zoneId).format(timestampFormatter)
+                } catch (e: DateTimeParseException) {
+                    it
+                }
+            }
         val level = levelKey?.let { node.get(it) }
             ?.asText()
             ?.uppercase()
-            ?: "DEFAULT"
         val message = messageKey?.let { node.get(it) }
             ?.asText()
 
@@ -103,7 +108,7 @@ private fun detectKey(keys: Set<String>, candidates: List<String>): String? {
     return candidates.firstOrNull { keys.contains(it) }
 }
 
-private fun contentTypeOf(level: String, inputContentType: ConsoleViewContentType): ConsoleViewContentType {
+private fun contentTypeOf(level: String?, inputContentType: ConsoleViewContentType): ConsoleViewContentType {
     return when (level) {
         "DEBUG" -> ConsoleViewContentType.LOG_DEBUG_OUTPUT
         "INFO", "NOTICE" -> ConsoleViewContentType.LOG_INFO_OUTPUT
