@@ -11,10 +11,15 @@ class MyConsoleFolding : ConsoleFolding() {
 
     override fun shouldFoldLine(project: Project, line: String): Boolean {
         thisLogger().debug("shouldFoldLine: $line")
-        return line.startsWith("{") || line.startsWith("  ") || line.startsWith("}")
+        return isPartOfPrettyJson(line)
     }
 
 //    override fun shouldBeAttachedToThePreviousLine(): Boolean {
 //        return false
 //    }
+}
+
+private val prettyJsonPartRegex = Regex("""^([{}]| {2,}(".*": |}))""")
+fun isPartOfPrettyJson(line: String): Boolean {
+    return prettyJsonPartRegex.containsMatchIn(line)
 }

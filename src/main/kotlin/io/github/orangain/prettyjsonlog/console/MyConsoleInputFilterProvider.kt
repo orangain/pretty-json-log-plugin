@@ -52,7 +52,7 @@ class MyConsoleInputFilter : InputFilter {
         val message = messageKey?.let { node.get(it) }
             ?.asText()
 
-        val jsonString = writer.writeValueAsString(node)
+        val jsonString = prettyPrintJson(node)
 //        return mutableListOf(
 //            Pair("[$timestamp] ", contentType),
 //            Pair(level, contentTypeOf(level, contentType)),
@@ -73,6 +73,10 @@ private val mapper = jacksonObjectMapper().apply {
     configure(JsonNodeFeature.WRITE_PROPERTIES_SORTED, true)
 }
 private val writer = mapper.writer(MyPrettyPrinter())
+
+fun prettyPrintJson(node: JsonNode): String {
+    return writer.writeValueAsString(node)
+}
 
 class MyPrettyPrinter : DefaultPrettyPrinter() {
     init {
