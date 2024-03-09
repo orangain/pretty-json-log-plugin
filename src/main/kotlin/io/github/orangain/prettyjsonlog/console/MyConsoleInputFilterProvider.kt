@@ -41,12 +41,6 @@ class MyConsoleInputFilter : InputFilter {
         val message = extractMessage(node)
 
         val jsonString = prettyPrintJson(node)
-//        return mutableListOf(
-//            Pair("[$timestamp] ", contentType),
-//            Pair(level, contentTypeOf(level, contentType)),
-//            Pair(": ", contentType),
-//            Pair(message, ConsoleViewContentType.LOG_VERBOSE_OUTPUT),
-//        )
         return mutableListOf(
             Pair("[${timestamp?.format(zoneId, timestampFormatter)}] ", contentType),
             Pair("$level: $message", contentTypeOf(level, contentType)),
@@ -85,10 +79,6 @@ fun parseJson(text: String): JsonNode? {
     } catch (e: JsonProcessingException) {
         null
     }
-}
-
-private fun detectKey(keys: Set<String>, candidates: List<String>): String? {
-    return candidates.firstOrNull { keys.contains(it) }
 }
 
 private fun contentTypeOf(level: Level?, inputContentType: ConsoleViewContentType): ConsoleViewContentType {
