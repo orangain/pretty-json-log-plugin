@@ -22,7 +22,7 @@ class MyConsoleInputFilterProvider : ConsoleInputFilterProvider {
 }
 
 private val zoneId = ZoneId.systemDefault()
-private val timestampFormatter = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
+private val timestampFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
 
 class MyConsoleInputFilter : InputFilter {
     override fun applyFilter(
