@@ -12,6 +12,7 @@ import com.intellij.execution.ui.ConsoleViewContentType
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Pair
+import io.github.orangain.prettyjsonlog.Level
 import io.github.orangain.prettyjsonlog.extractLevel
 import io.github.orangain.prettyjsonlog.extractMessage
 import io.github.orangain.prettyjsonlog.extractTimestamp
@@ -90,12 +91,12 @@ private fun detectKey(keys: Set<String>, candidates: List<String>): String? {
     return candidates.firstOrNull { keys.contains(it) }
 }
 
-private fun contentTypeOf(level: String?, inputContentType: ConsoleViewContentType): ConsoleViewContentType {
+private fun contentTypeOf(level: Level?, inputContentType: ConsoleViewContentType): ConsoleViewContentType {
     return when (level) {
-        "DEBUG" -> ConsoleViewContentType.LOG_DEBUG_OUTPUT
-        "INFO", "NOTICE" -> ConsoleViewContentType.LOG_INFO_OUTPUT
-        "WARNING" -> ConsoleViewContentType.LOG_WARNING_OUTPUT
-        "ERROR", "CRITICAL", "ALERT", "EMERGENCY" -> ConsoleViewContentType.LOG_ERROR_OUTPUT
+        Level.TRACE, Level.DEBUG -> ConsoleViewContentType.LOG_DEBUG_OUTPUT
+        Level.INFO -> ConsoleViewContentType.LOG_INFO_OUTPUT
+        Level.WARN -> ConsoleViewContentType.LOG_WARNING_OUTPUT
+        Level.ERROR, Level.FATAL -> ConsoleViewContentType.LOG_ERROR_OUTPUT
         else -> inputContentType
     }
 }
