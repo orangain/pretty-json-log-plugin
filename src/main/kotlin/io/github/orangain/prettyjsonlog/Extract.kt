@@ -1,6 +1,7 @@
 package io.github.orangain.prettyjsonlog
 
 import com.fasterxml.jackson.databind.JsonNode
+import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -10,9 +11,9 @@ private val timestampKeys = listOf("timestamp", "time")
 
 sealed interface Timestamp {
     fun format(zoneId: ZoneId, formatter: DateTimeFormatter): String
-    data class Parsed(val value: OffsetDateTime) : Timestamp {
+    data class Parsed(val value: Instant) : Timestamp {
         override fun format(zoneId: ZoneId, formatter: DateTimeFormatter): String {
-            return value.atZoneSameInstant(zoneId).format(formatter)
+            return value.atZone(zoneId).format(formatter)
         }
     }
 
@@ -29,7 +30,9 @@ fun extractTimestamp(node: JsonNode): Timestamp? {
             ?.asText()
             ?.let {
                 try {
-                    Timestamp.Parsed(OffsetDateTime.parse(it))
+                    // Use OffsetDateTime.parse instead of Instant.parse because Instant.parse in JDK <= 11 does not support non-UTC offset like "-05:00".
+                    // See: https://stackoverflow.com/questions/68217689/how-to-use-instant-java-class-to-parse-a-date-time-with-offset-from-utc/68221614#68221614
+                    Timestamp.Parsed(OffsetDateTime.parse(it).toInstant())
                 } catch (e: DateTimeParseException) {
                     Timestamp.Fallback(it)
                 }

@@ -2,7 +2,7 @@ package io.github.orangain.prettyjsonlog
 
 import io.github.orangain.prettyjsonlog.console.parseJson
 import junit.framework.TestCase
-import java.time.OffsetDateTime
+import java.time.Instant
 
 private data class ExtractParam(
     val description: String,
@@ -17,7 +17,7 @@ private val params = listOf(
     ExtractParam(
         "Cloud Logging",
         """{"severity":"ERROR", "message":"There was an error in the application.", "httpRequest":{"requestMethod":"GET"},"time":"2020-10-12T07:20:50.52Z"}""",
-        Timestamp.Parsed(OffsetDateTime.parse("2020-10-12T07:20:50.52Z")),
+        Timestamp.Parsed(Instant.parse("2020-10-12T07:20:50.52Z")),
         "ERROR",
         "There was an error in the application.",
     ),
@@ -25,7 +25,7 @@ private val params = listOf(
     ExtractParam(
         "Go slog",
         """{"time":"2022-11-08T15:28:26.000000000-05:00","level":"INFO","msg":"hello","count":3}""",
-        Timestamp.Parsed(OffsetDateTime.parse("2022-11-08T15:28:26.000000000-05:00")),
+        Timestamp.Parsed(Instant.parse("2022-11-08T20:28:26Z")),
         "INFO",
         "hello",
     ),
@@ -33,7 +33,7 @@ private val params = listOf(
     ExtractParam(
         "Bunyan",
         """{"name":"myapp","hostname":"banana.local","pid":40161,"level":30,"msg":"hi","time":"2013-01-04T18:46:23.851Z","v":0}""",
-        Timestamp.Parsed(OffsetDateTime.parse("2013-01-04T18:46:23.851Z")),
+        Timestamp.Parsed(Instant.parse("2013-01-04T18:46:23.851Z")),
         "INFO",
         "hi",
     ),
