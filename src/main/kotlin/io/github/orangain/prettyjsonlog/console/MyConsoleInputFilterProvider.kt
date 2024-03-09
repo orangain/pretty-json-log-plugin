@@ -75,7 +75,7 @@ class MyPrettyPrinter : DefaultPrettyPrinter() {
     }
 }
 
-private fun parseJson(text: String): JsonNode? {
+fun parseJson(text: String): JsonNode? {
     if (!jsonPattern.matches(text)) {
         return null
     }
