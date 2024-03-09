@@ -33,7 +33,7 @@ features:
   log level, and message.
 - **Colorful Display**: Displays essential log information in different colors depending on the log level to make it
   easier to read.
-- **Readable Timestamp**: Formats the timestamp in a human-readable format.
+- **Readable Timestamp**: Formats the timestamp in a human-friendly format.
 - **Expandable Pretty JSON**: Prints a well-formatted JSON string following the log message. The JSON string is folded
   by default, but you can expand it when you need to view the full details.
 - **Seamless Integration**: Supports various log formats such
@@ -50,8 +50,8 @@ switch log formats between production and local development environments.
 
 - Using the IDE built-in plugin system:
 
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "
-  Pretty JSON Log"</kbd> > <kbd>Install</kbd>
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Pretty JSON
+  Log"</kbd> > <kbd>Install</kbd>
 
 - Manually:
 
