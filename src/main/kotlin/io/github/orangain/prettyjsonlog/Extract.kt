@@ -7,7 +7,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
-private val timestampKeys = listOf("timestamp", "time")
+private val timestampKeys = listOf("timestamp", "time", "@timestamp")
 
 sealed interface Timestamp {
     fun format(zoneId: ZoneId, formatter: DateTimeFormatter): String

@@ -45,6 +45,14 @@ private val params = listOf(
         "INFO",
         "hello world",
     ),
+    // https://github.com/logfellow/logstash-logback-encoder
+    ExtractParam(
+        "Logstash Logback Encoder",
+        """{"@timestamp":"2019-11-03T10:15:30.123+01:00","@version":"1","message":"My message","logger_name":"org.company.stack.Sample","thread_name":"main","level":"INFO","level_value":20000}""",
+        Timestamp.Parsed(Instant.parse("2019-11-03T09:15:30.123Z")),
+        "INFO",
+        "My message",
+    ),
 )
 
 class ExtractTest : TestCase() {
