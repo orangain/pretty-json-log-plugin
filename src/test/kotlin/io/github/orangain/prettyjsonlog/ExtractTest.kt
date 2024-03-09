@@ -37,6 +37,14 @@ private val params = listOf(
         "INFO",
         "hi",
     ),
+    // https://github.com/pinojs/pino
+    ExtractParam(
+        "Pino",
+        """{"level":30,"time":1531171074631,"msg":"hello world","pid":657,"hostname":"Davids-MBP-3.fritz.box"}""",
+        Timestamp.Parsed(Instant.parse("2018-07-09T21:17:54.631Z")),
+        "INFO",
+        "hello world",
+    ),
 )
 
 class ExtractTest : TestCase() {
