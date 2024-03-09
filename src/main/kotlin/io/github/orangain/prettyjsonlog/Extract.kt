@@ -42,14 +42,20 @@ enum class Level {
         }
 
         fun fromString(level: String): Level? {
+            // Bunyan's levels: TRACE, DEBUG, INFO, WARN, ERROR, FATAL
+            // https://github.com/trentm/node-bunyan?tab=readme-ov-file#levels
+            // Cloud Logging's levels: DEFAULT, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY
+            // https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#LogSeverity
+            // java.util.logging's levels: FINEST, FINER, FINE, CONFIG, INFO, WARNING, SEVERE
+            // https://docs.oracle.com/en/java/javase/21/docs/api/java.logging/java/util/logging/Level.html
             return when (level.uppercase()) {
-                "TRACE" -> TRACE
-                "DEBUG" -> DEBUG
-                "INFO" -> INFO
-                "WARN" -> WARN
-                "ERROR" -> ERROR
-                "FATAL" -> FATAL
-                else -> null
+                "TRACE", "FINEST", "FINER", "FINE" -> TRACE
+                "DEBUG", "CONFIG" -> DEBUG
+                "INFO", "NOTICE" -> INFO
+                "WARN", "WARNING" -> WARN
+                "ERROR", "CRITICAL", "SEVERE" -> ERROR
+                "FATAL", "ALERT", "EMERGENCY" -> FATAL
+                else -> null // This includes "DEFAULT"
             }
         }
     }
