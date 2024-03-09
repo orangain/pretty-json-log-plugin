@@ -21,9 +21,9 @@ private val params = listOf(
         Level.ERROR,
         "There was an error in the application.",
     ),
-    // https://pkg.go.dev/golang.org/x/exp/slog
+    // https://pkg.go.dev/log/slog
     ExtractParam(
-        "Go slog",
+        "log/slog in Go",
         """{"time":"2022-11-08T15:28:26.000000000-05:00","level":"INFO","msg":"hello","count":3}""",
         Timestamp.Parsed(Instant.parse("2022-11-08T20:28:26Z")),
         Level.INFO,
