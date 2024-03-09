@@ -1,6 +1,6 @@
 package io.github.orangain.prettyjsonlog
 
-import io.github.orangain.prettyjsonlog.console.parseJson
+import io.github.orangain.prettyjsonlog.json.parseJson
 import junit.framework.TestCase
 import java.time.Instant
 

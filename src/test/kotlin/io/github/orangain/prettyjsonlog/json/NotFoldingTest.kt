@@ -1,4 +1,4 @@
-package io.github.orangain.prettyjsonlog.console
+package io.github.orangain.prettyjsonlog.json
 
 import junit.framework.TestCase
 

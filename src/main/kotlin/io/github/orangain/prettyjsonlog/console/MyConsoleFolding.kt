@@ -3,6 +3,7 @@ package io.github.orangain.prettyjsonlog.console
 import com.intellij.execution.ConsoleFolding
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
+import io.github.orangain.prettyjsonlog.json.isPartOfPrettyJson
 
 class MyConsoleFolding : ConsoleFolding() {
     override fun getPlaceholderText(project: Project, lines: List<String>): String {
@@ -17,9 +18,4 @@ class MyConsoleFolding : ConsoleFolding() {
 //    override fun shouldBeAttachedToThePreviousLine(): Boolean {
 //        return false
 //    }
-}
-
-private val prettyJsonPartRegex = Regex("""^([{}]| {2,}(".*": |}))""")
-fun isPartOfPrettyJson(line: String): Boolean {
-    return prettyJsonPartRegex.containsMatchIn(line)
 }

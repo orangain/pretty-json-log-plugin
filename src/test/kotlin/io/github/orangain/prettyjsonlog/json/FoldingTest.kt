@@ -1,4 +1,4 @@
-package io.github.orangain.prettyjsonlog.console
+package io.github.orangain.prettyjsonlog.json
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ObjectNode

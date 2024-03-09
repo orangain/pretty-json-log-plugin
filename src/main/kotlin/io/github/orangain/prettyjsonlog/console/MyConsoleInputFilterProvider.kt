@@ -1,11 +1,5 @@
 package io.github.orangain.prettyjsonlog.console
 
-import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.databind.cfg.JsonNodeFeature
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.intellij.execution.filters.ConsoleInputFilterProvider
 import com.intellij.execution.filters.InputFilter
 import com.intellij.execution.ui.ConsoleViewContentType
@@ -16,6 +10,8 @@ import io.github.orangain.prettyjsonlog.Level
 import io.github.orangain.prettyjsonlog.extractLevel
 import io.github.orangain.prettyjsonlog.extractMessage
 import io.github.orangain.prettyjsonlog.extractTimestamp
+import io.github.orangain.prettyjsonlog.json.parseJson
+import io.github.orangain.prettyjsonlog.json.prettyPrintJson
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
@@ -46,38 +42,6 @@ class MyConsoleInputFilter : InputFilter {
             Pair("$level: $message", contentTypeOf(level, contentType)),
             Pair("\n$jsonString", contentType),
         )
-    }
-}
-
-private val jsonPattern = Regex("""^\s*\{.*}\s*$""")
-private val mapper = jacksonObjectMapper().apply {
-    configure(SerializationFeature.INDENT_OUTPUT, true)
-    configure(JsonNodeFeature.WRITE_PROPERTIES_SORTED, true)
-}
-private val writer = mapper.writer(MyPrettyPrinter())
-
-fun prettyPrintJson(node: JsonNode): String {
-    return writer.writeValueAsString(node)
-}
-
-class MyPrettyPrinter : DefaultPrettyPrinter() {
-    init {
-        _objectFieldValueSeparatorWithSpaces = ": "
-    }
-
-    override fun createInstance(): DefaultPrettyPrinter {
-        return MyPrettyPrinter()
-    }
-}
-
-fun parseJson(text: String): JsonNode? {
-    if (!jsonPattern.matches(text)) {
-        return null
-    }
-    return try {
-        mapper.readTree(text)
-    } catch (e: JsonProcessingException) {
-        null
     }
 }
 
