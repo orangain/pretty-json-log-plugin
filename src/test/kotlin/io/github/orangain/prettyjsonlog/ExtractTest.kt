@@ -58,7 +58,7 @@ private val params = listOf(
 class ExtractTest : TestCase() {
     fun testExtractTimestamp() {
         params.forEach { param ->
-            val node = parseJson(param.json)!!
+            val (node, _) = parseJson(param.json)!!
             val actual = extractTimestamp(node)
             assertEquals(param.description, param.expectedTimestamp, actual)
         }
@@ -66,7 +66,7 @@ class ExtractTest : TestCase() {
 
     fun testExtractLevel() {
         params.forEach { param ->
-            val node = parseJson(param.json)!!
+            val (node, _) = parseJson(param.json)!!
             val actual = extractLevel(node)
             assertEquals(param.description, param.expectedLevel, actual)
         }
@@ -74,7 +74,7 @@ class ExtractTest : TestCase() {
 
     fun testExtractMessage() {
         params.forEach { param ->
-            val node = parseJson(param.json)!!
+            val (node, _) = parseJson(param.json)!!
             val actual = extractMessage(node)
             assertEquals(param.description, param.expectedMessage, actual)
         }
