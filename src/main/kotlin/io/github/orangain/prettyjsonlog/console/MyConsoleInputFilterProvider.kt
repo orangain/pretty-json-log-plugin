@@ -40,7 +40,7 @@ class MyConsoleInputFilter : InputFilter {
         return mutableListOf(
             Pair("[${timestamp?.format(zoneId, timestampFormatter)}] ", contentType),
             Pair("$level: $message", contentTypeOf(level, contentType)),
-            Pair("\n$jsonString", contentType),
+            Pair(" \n$jsonString", contentType), // Add a space to at the end of line to make it look good when folded.
         )
     }
 }
