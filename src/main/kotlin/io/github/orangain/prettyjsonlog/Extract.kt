@@ -8,15 +8,30 @@ import java.time.format.DateTimeParseException
 
 private val timestampKeys = listOf("timestamp", "time")
 
-fun extractTimestamp(node: JsonNode, zoneId: ZoneId, formatter: DateTimeFormatter): String? {
+sealed interface Timestamp {
+    fun format(zoneId: ZoneId, formatter: DateTimeFormatter): String
+    data class Parsed(val value: OffsetDateTime) : Timestamp {
+        override fun format(zoneId: ZoneId, formatter: DateTimeFormatter): String {
+            return value.atZoneSameInstant(zoneId).format(formatter)
+        }
+    }
+
+    data class Fallback(val value: String) : Timestamp {
+        override fun format(zoneId: ZoneId, formatter: DateTimeFormatter): String {
+            return value
+        }
+    }
+}
+
+fun extractTimestamp(node: JsonNode): Timestamp? {
     return timestampKeys.firstOrNull { node.has(it) }?.let { timestampKey ->
         node.get(timestampKey)
             ?.asText()
             ?.let {
                 try {
-                    OffsetDateTime.parse(it).atZoneSameInstant(zoneId).format(formatter)
+                    Timestamp.Parsed(OffsetDateTime.parse(it))
                 } catch (e: DateTimeParseException) {
-                    it
+                    Timestamp.Fallback(it)
                 }
             }
     }

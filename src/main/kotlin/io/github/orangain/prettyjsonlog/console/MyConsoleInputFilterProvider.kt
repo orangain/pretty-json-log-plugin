@@ -35,7 +35,7 @@ class MyConsoleInputFilter : InputFilter {
         thisLogger().debug("contentType: $contentType, applyFilter: $text")
         val node = parseJson(text) ?: return null
 
-        val timestamp = extractTimestamp(node, zoneId, timestampFormatter)
+        val timestamp = extractTimestamp(node)
         val level = extractLevel(node)
         val message = extractMessage(node)
 
@@ -47,7 +47,7 @@ class MyConsoleInputFilter : InputFilter {
 //            Pair(message, ConsoleViewContentType.LOG_VERBOSE_OUTPUT),
 //        )
         return mutableListOf(
-            Pair("[$timestamp] ", contentType),
+            Pair("[${timestamp?.format(zoneId, timestampFormatter)}] ", contentType),
             Pair("$level: $message", contentTypeOf(level, contentType)),
             Pair("\n$jsonString", contentType),
         )
