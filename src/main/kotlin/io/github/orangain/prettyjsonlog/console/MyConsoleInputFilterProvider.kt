@@ -12,10 +12,11 @@ import com.intellij.execution.ui.ConsoleViewContentType
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Pair
-import java.time.OffsetDateTime
+import io.github.orangain.prettyjsonlog.extractLevel
+import io.github.orangain.prettyjsonlog.extractMessage
+import io.github.orangain.prettyjsonlog.extractTimestamp
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeParseException
 
 class MyConsoleInputFilterProvider : ConsoleInputFilterProvider {
     override fun getDefaultFilters(project: Project): Array<InputFilter> {
@@ -25,9 +26,6 @@ class MyConsoleInputFilterProvider : ConsoleInputFilterProvider {
 
 private val zoneId = ZoneId.systemDefault()
 private val timestampFormatter = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
-private val timestampKeys = listOf("timestamp", "time")
-private val levelKeys = listOf("level", "severity")
-private val messageKeys = listOf("message", "msg")
 
 class MyConsoleInputFilter : InputFilter {
     override fun applyFilter(
@@ -37,25 +35,9 @@ class MyConsoleInputFilter : InputFilter {
         thisLogger().debug("contentType: $contentType, applyFilter: $text")
         val node = parseJson(text) ?: return null
 
-        val keys = Iterable { node.fieldNames() }.toSet()
-        val timestampKey = detectKey(keys, timestampKeys)
-        val levelKey = detectKey(keys, levelKeys)
-        val messageKey = detectKey(keys, messageKeys)
-
-        val timestamp = timestampKey?.let { node.get(it) }
-            ?.asText()
-            ?.let {
-                try {
-                    OffsetDateTime.parse(it).atZoneSameInstant(zoneId).format(timestampFormatter)
-                } catch (e: DateTimeParseException) {
-                    it
-                }
-            }
-        val level = levelKey?.let { node.get(it) }
-            ?.asText()
-            ?.uppercase()
-        val message = messageKey?.let { node.get(it) }
-            ?.asText()
+        val timestamp = extractTimestamp(node, zoneId, timestampFormatter)
+        val level = extractLevel(node)
+        val message = extractMessage(node)
 
         val jsonString = prettyPrintJson(node)
 //        return mutableListOf(
