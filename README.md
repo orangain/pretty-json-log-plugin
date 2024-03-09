@@ -24,19 +24,24 @@
   about releases containing new features and fixes.
 
 <!-- Plugin description -->
-This is a plugin for IntelliJ Platform to make NDJSON (Newline Delimited JSON) logs more readable. It parses each line
-as JSON and displays timestamp, log level and message in the console. It also prints pretty JSON string after the log
-message. The JSON string is folded by default, but you can expand it when you need to see the full details.
+Makes NDJSON (Newline Delimited JSON a.k.a. JSON Lines) logs more readable in the console. It has the following
+features:
 
-This plugin is useful when you are developing a system that outputs logs in JSON format. You no longer need to switch
-log formats between production and local development environments. The plugin supports various log formats such
-as [Logstash](https://github.com/logfellow/logstash-logback-encoder), [Bunyan](https://github.com/trentm/node-bunyan),
-[Pino](https://github.com/pinojs/pino), [slog in Go](https://pkg.go.dev/golang.org/x/exp/slog),
-[Cloud Logging](https://cloud.google.com/logging/docs/structured-logging), etc. without any configuration and additional
-software.
+- **JSON Parsing**: Automatically parses each log line as JSON and extracts essential log information such as timestamp,
+  log level, and message.
+- **Colorful Display**: Displays essential log information in different colors depending on the log level to make it
+  easier to read.
+- **Readable Timestamp**: Formats the timestamp in a human-readable format.
+- **Expandable Pretty JSON**: Prints a well-formatted JSON string following the log message. The JSON string is folded
+  by default, but you can expand it when you need to view the full details.
+- **Seamless Integration**: Supports various log formats such
+  as [Logstash](https://github.com/logfellow/logstash-logback-encoder), [Bunyan](https://github.com/trentm/node-bunyan),
+  [Pino](https://github.com/pinojs/pino), [log/slog](https://pkg.go.dev/log/slog),
+  [Cloud Logging](https://cloud.google.com/logging/docs/structured-logging), etc. with no additional configuration or
+  software.
 
-This plugin is inspired by the [pino-pretty](https://github.com/pinojs/pino-pretty)
-and [bunyan CLI](https://github.com/trentm/node-bunyan).
+This plugin is useful when you are developing a modern system that outputs logs in JSON format. You no longer need to
+switch log formats between production and local development environments.
 <!-- Plugin description end -->
 
 ## Installation
@@ -44,8 +49,7 @@ and [bunyan CLI](https://github.com/trentm/node-bunyan).
 - Using the IDE built-in plugin system:
 
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "
-  pretty-json-log-plugin"</kbd> >
-  <kbd>Install</kbd>
+  Pretty JSON Log"</kbd> > <kbd>Install</kbd>
 
 - Manually:
 
@@ -54,7 +58,9 @@ and [bunyan CLI](https://github.com/trentm/node-bunyan).
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 ---
-Plugin based on the [IntelliJ Platform Plugin Template][template].
+This plugin is inspired by the [pino-pretty](https://github.com/pinojs/pino-pretty)
+and [bunyan CLI](https://github.com/trentm/node-bunyan). It is based on
+the [IntelliJ Platform Plugin Template][template].
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
 
