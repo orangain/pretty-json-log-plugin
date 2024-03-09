@@ -30,7 +30,7 @@ class MyConsoleInputFilter : InputFilter {
         contentType: ConsoleViewContentType
     ): MutableList<Pair<String, ConsoleViewContentType>>? {
         thisLogger().debug("contentType: $contentType, applyFilter: $text")
-        val node = parseJson(text) ?: return null
+        val (node, suffixWhitespaces) = parseJson(text) ?: return null
 
         val timestamp = extractTimestamp(node)
         val level = extractLevel(node)
@@ -40,7 +40,10 @@ class MyConsoleInputFilter : InputFilter {
         return mutableListOf(
             Pair("[${timestamp?.format(zoneId, timestampFormatter)}] ", contentType),
             Pair("$level: $message", contentTypeOf(level, contentType)),
-            Pair(" \n$jsonString", contentType), // Add a space to at the end of line to make it look good when folded.
+            Pair(
+                " \n$jsonString$suffixWhitespaces",
+                contentType
+            ), // Add a space to at the end of line to make it look good when folded.
         )
     }
 }
