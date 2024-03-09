@@ -71,4 +71,12 @@ class ExtractTest : TestCase() {
             assertEquals(param.description, param.expectedLevel, actual)
         }
     }
+
+    fun testExtractMessage() {
+        params.forEach { param ->
+            val node = parseJson(param.json)!!
+            val actual = extractMessage(node)
+            assertEquals(param.description, param.expectedMessage, actual)
+        }
+    }
 }
