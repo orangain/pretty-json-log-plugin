@@ -11,7 +11,7 @@
 - [x] Adjust the [pluginGroup](./gradle.properties), [plugin ID](./src/main/resources/META-INF/plugin.xml)
   and [sources package](./src/main/kotlin).
 - [x] Adjust the plugin description in `README` (see [Tips][docs:plugin-description])
-- [ ] Review
+- [x] Review
   the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html?from=IJPluginTemplate).
 - [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate)
   for the first time.
