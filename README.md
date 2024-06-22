@@ -1,4 +1,4 @@
-# Pretty JSON Log plugin for IntelliJ Platform
+# <img src="src/main/resources/META-INF/pluginIcon.svg" alt="" width="24" height="24"> Pretty JSON Log plugin
 
 ![Build](https://github.com/orangain/pretty-json-log-plugin/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
@@ -26,8 +26,8 @@
 ![Plugin screenshot](media/screenshot_expanded.png)
 
 <!-- Plugin description -->
-Makes NDJSON (Newline Delimited JSON a.k.a. JSON Lines) logs more readable in the console. It has the following
-features:
+Pretty JSON Log plugin for IntelliJ Platform makes NDJSON (Newline Delimited JSON a.k.a. JSON Lines) logs more readable
+in the console. It has the following features:
 
 - **JSON Parsing**: Automatically parses each log line as JSON and extracts essential log information such as timestamp,
   log level, and message.
