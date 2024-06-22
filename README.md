@@ -1,8 +1,8 @@
 # <img src="src/main/resources/META-INF/pluginIcon.svg" alt="" width="24" height="24"> Pretty JSON Log plugin
 
 ![Build](https://github.com/orangain/pretty-json-log-plugin/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
+[![Version](https://img.shields.io/jetbrains/plugin/v/io.github.orangain.prettyjsonlog.svg)](https://plugins.jetbrains.com/plugin/io.github.orangain.prettyjsonlog)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/io.github.orangain.prettyjsonlog.svg)](https://plugins.jetbrains.com/plugin/io.github.orangain.prettyjsonlog)
 
 ## Template ToDo list
 
@@ -13,9 +13,9 @@
 - [x] Adjust the plugin description in `README` (see [Tips][docs:plugin-description])
 - [x] Review
   the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html?from=IJPluginTemplate).
-- [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate)
+- [x] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate)
   for the first time.
-- [ ] Set the `PLUGIN_ID` in the above README badges.
+- [x] Set the `PLUGIN_ID` in the above README badges.
 - [ ] Set the [Plugin Signing](https://plugins.jetbrains.com/docs/intellij/plugin-signing.html?from=IJPluginTemplate)
   related [secrets](https://github.com/JetBrains/intellij-platform-plugin-template#environment-variables).
 - [ ] Set
