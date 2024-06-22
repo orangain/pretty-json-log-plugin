@@ -1,4 +1,4 @@
-# <img src="src/main/resources/META-INF/pluginIcon.svg" alt="" width="32" height="32"> Pretty JSON Log plugin
+# <img src="src/main/resources/META-INF/pluginIcon.svg" alt="" width="24" height="24"> Pretty JSON Log plugin
 
 ![Build](https://github.com/orangain/pretty-json-log-plugin/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
