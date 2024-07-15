@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Added
+- Showing stacktrace when present
+- Support for log level in ECS
+
 ## [0.1.0] - 2024-06-22
 
 ### Added
