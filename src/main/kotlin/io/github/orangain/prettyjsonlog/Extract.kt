@@ -117,7 +117,7 @@ fun extractMessage(node: JsonNode): String? {
     }
 }
 
-private val stackTraceKeys = listOf("error.stack_trace")
+private val stackTraceKeys = listOf("stack_trace", "exception", "error.stack_trace")
 
 fun extractStackTrace(node: JsonNode): String? {
     return stackTraceKeys.firstOrNull { node.has(it) }?.let { stackTraceKey ->
