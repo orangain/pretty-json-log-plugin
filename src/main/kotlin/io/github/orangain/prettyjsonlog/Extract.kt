@@ -93,7 +93,7 @@ fun extractTimestamp(node: JsonNode): Timestamp? {
     }
 }
 
-private val levelKeys = listOf("level", "severity")
+private val levelKeys = listOf("level", "severity", "log.level")
 
 fun extractLevel(node: JsonNode): Level? {
     return levelKeys.firstOrNull { node.has(it) }?.let { levelKey ->
@@ -108,11 +108,20 @@ fun extractLevel(node: JsonNode): Level? {
     }
 }
 
-private val messageKeys = listOf("message", "msg")
+private val messageKeys = listOf("message", "msg", "error.message")
 
 fun extractMessage(node: JsonNode): String? {
     return messageKeys.firstOrNull { node.has(it) }?.let { messageKey ->
         node.get(messageKey)
+            ?.asText()
+    }
+}
+
+private val stackTraceKeys = listOf("error.stack_trace")
+
+fun extractStackTrace(node: JsonNode): String? {
+    return stackTraceKeys.firstOrNull { node.has(it) }?.let { stackTraceKey ->
+        node.get(stackTraceKey)
             ?.asText()
     }
 }
