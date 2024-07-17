@@ -57,11 +57,11 @@ private val params = listOf(
     // https://github.com/trentm/node-bunyan
     ExtractParam(
         "Bunyan",
-        """{"name":"myapp","hostname":"banana.local","pid":40161,"level":30,"msg":"hi","time":"2013-01-04T18:46:23.851Z","v":0}""",
+        """{"name":"myapp","hostname":"banana.local","pid":40161,"level":30,"msg":"hi","time":"2013-01-04T18:46:23.851Z","v":0,"err":{"message":"boom","name":"TypeError","stack":"TypeError: boom\n    at Object.<anonymous> ..."}}""",
         Timestamp.Parsed(Instant.parse("2013-01-04T18:46:23.851Z")),
         Level.INFO,
         "hi",
-        null,
+        "TypeError: boom\n    at Object.<anonymous> ...",
     ),
     // https://github.com/pinojs/pino
     ExtractParam(
