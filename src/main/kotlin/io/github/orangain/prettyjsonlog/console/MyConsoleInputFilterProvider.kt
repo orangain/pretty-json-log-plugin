@@ -1,6 +1,5 @@
 package io.github.orangain.prettyjsonlog.console
 
-import com.fasterxml.jackson.databind.JsonNode
 import com.intellij.execution.filters.ConsoleInputFilterProvider
 import com.intellij.execution.filters.InputFilter
 import com.intellij.execution.ui.ConsoleViewContentType
@@ -32,32 +31,19 @@ class MyConsoleInputFilter : InputFilter {
 
         val timestamp = extractTimestamp(node)
         val level = extractLevel(node)
-        val contentTypeOfLevel = contentTypeOf(level, contentType)
         val message = extractMessage(node)
-        val stackTracePair = extractStackTracePair(node, contentTypeOfLevel)
+        val stackTrace = extractStackTrace(node)
+        val coloredMessage = "$level: $message" + (if (stackTrace?.isNotEmpty() == true) "\n$stackTrace" else "")
 
         val jsonString = prettyPrintJson(node)
         return mutableListOf(
             Pair("[${timestamp?.format(zoneId, timestampFormatter)}] ", contentType),
-            Pair("$level: $message", contentTypeOfLevel),
-            stackTracePair,
+            Pair(coloredMessage, contentTypeOf(level, contentType)),
             Pair(
                 " \n$jsonString$suffixWhitespaces",
                 contentType
             ), // Add a space to at the end of line to make it look good when folded.
         )
-    }
-
-    private fun extractStackTracePair(
-        node: JsonNode,
-        contentTypeOfLevel: ConsoleViewContentType
-    ): Pair<String, ConsoleViewContentType> {
-        val stackTrace = extractStackTrace(node)
-
-        if (stackTrace?.isNotEmpty() == true) {
-            return Pair("\n$stackTrace", contentTypeOfLevel)
-        }
-        return Pair("", contentTypeOfLevel)
     }
 }
 
