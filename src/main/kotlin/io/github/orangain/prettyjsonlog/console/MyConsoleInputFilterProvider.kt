@@ -1,15 +1,14 @@
 package io.github.orangain.prettyjsonlog.console
 
-import com.fasterxml.jackson.databind.JsonNode
 import com.intellij.execution.filters.ConsoleInputFilterProvider
 import com.intellij.execution.filters.InputFilter
 import com.intellij.execution.ui.ConsoleViewContentType
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Pair
-import io.github.orangain.prettyjsonlog.*
 import io.github.orangain.prettyjsonlog.json.parseJson
 import io.github.orangain.prettyjsonlog.json.prettyPrintJson
+import io.github.orangain.prettyjsonlog.logentry.*
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
@@ -32,29 +31,22 @@ class MyConsoleInputFilter : InputFilter {
 
         val timestamp = extractTimestamp(node)
         val level = extractLevel(node)
-        val contentTypeOfLevel = contentTypeOf(level, contentType)
         val message = extractMessage(node)
-        val stackTracePair = extractStackTracePair(node, contentTypeOfLevel)
+        val stackTrace = extractStackTrace(node)
+        // .trimEnd('\n') is necessary because of the following reasons:
+        // - When stackTrace is null or empty, we don't want to add an extra newline.
+        // - When stackTrace ends with a newline, trimming the last newline makes a folding marker look better.
+        val coloredMessage = "$level: $message\n${stackTrace ?: ""}".trimEnd('\n')
 
         val jsonString = prettyPrintJson(node)
         return mutableListOf(
             Pair("[${timestamp?.format(zoneId, timestampFormatter)}] ", contentType),
-            Pair("$level: $message", contentTypeOfLevel),
-            stackTracePair,
+            Pair(coloredMessage, contentTypeOf(level, contentType)),
             Pair(
-                " \n$jsonString$suffixWhitespaces",
+                " \n$jsonString$suffixWhitespaces", // Adding a space at the end of line makes a folding marker look better.
                 contentType
-            ), // Add a space to at the end of line to make it look good when folded.
+            ),
         )
-    }
-
-    private fun extractStackTracePair(node: JsonNode, contentTypeOfLevel: ConsoleViewContentType): Pair<String, ConsoleViewContentType> {
-        val stackTrace = extractStackTrace(node)
-
-        if (stackTrace?.isNotEmpty() == true) {
-            return Pair("\n$stackTrace", contentTypeOfLevel)
-        }
-        return Pair("", contentTypeOfLevel)
     }
 }
 
