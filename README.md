@@ -34,6 +34,8 @@ switch log formats between production and local development environments.
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Pretty JSON
   Log"</kbd> > <kbd>Install</kbd>
 
+  ![Installation dialog](media/screenshot-installation.png)
+
 - Manually:
 
   Download the [latest release](https://github.com/orangain/pretty-json-log-plugin/releases/latest) and install it
