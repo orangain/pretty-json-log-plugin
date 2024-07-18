@@ -40,6 +40,8 @@ switch log formats between production and local development environments.
   manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
+After installation, newly written JSON lines logs in the console will be automatically formatted by the plugin.
+
 ---
 This plugin is inspired by the [pino-pretty](https://github.com/pinojs/pino-pretty)
 and [bunyan CLI](https://github.com/trentm/node-bunyan). It is based on
