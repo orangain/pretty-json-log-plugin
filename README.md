@@ -42,6 +42,24 @@ switch log formats between production and local development environments.
 
 After installation, newly written JSON lines logs in the console will be automatically formatted by the plugin.
 
+## Recommended Settings
+
+The following settings will prevent strange display of folding markers when a stack trace is included in the
+JSON log.
+
+- <kbd>Settings/Preferences</kbd> > <kbd>Editor</kbd> > <kbd>General</kbd> > <kbd>Console</kbd> >
+  <kbd>Exceptions</kbd> > <kbd>+</kbd> > <kbd>Enter `":`</kbd> > <kbd>OK</kbd>
+
+  ![Recommended Settings](media/settings-folding-exception.png)
+
+Before:
+
+![Two folding markers and "internal line" text](media/settings-folding-before.png)
+
+After:
+
+![One folding marker](media/settings-folding-after.png)
+
 ---
 This plugin is inspired by the [pino-pretty](https://github.com/pinojs/pino-pretty)
 and [bunyan CLI](https://github.com/trentm/node-bunyan). It is based on
