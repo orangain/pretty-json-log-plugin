@@ -1,19 +1,34 @@
 import java.time.Instant
 
-fun log(level: String, message: String, traceId: String) {
-    val timestamp = Instant.now().toString()
-    val pid = ProcessHandle.current().pid()
-    val thread = Thread.currentThread().name
-    val escapedMessage = message
+fun String.escapeJsonString(): String {
+    return this
         .replace("\\", "\\\\")
         .replace("\"", "\\\"")
         .replace("\n", "\\n")
         .replace("\r", "\\r")
         .replace("\t", "\\t")
         .replace("\b", "\\b")
+}
 
+fun log(level: String, message: String, traceId: String) {
+    val timestamp = Instant.now().toString()
+    val pid = ProcessHandle.current().pid()
+    val thread = Thread.currentThread().name
+    val escapedMessage = message.escapeJsonString()
     val json =
         """{"timestamp":"$timestamp","pid":$pid,"thread":"$thread","level":"$level","message":"$escapedMessage","traceId":"$traceId"}"""
+    println(json)
+}
+
+fun logException(message: String, e: Exception, traceId: String) {
+    val level = "ERROR"
+    val timestamp = Instant.now().toString()
+    val pid = ProcessHandle.current().pid()
+    val thread = Thread.currentThread().name
+    val escapedMessage = message.escapeJsonString()
+    val escapedStackTrace = e.stackTraceToString().escapeJsonString()
+    val json =
+        """{"timestamp":"$timestamp","pid":$pid,"thread":"$thread","level":"$level","message":"$escapedMessage","stack_trace":"$escapedStackTrace","traceId":"$traceId"}"""
     println(json)
 }
 
@@ -33,5 +48,6 @@ try {
     throw RuntimeException("Something went wrong!")
 } catch (e: Exception) {
     log("ERROR", e.stackTraceToString(), trace2)
+    logException(e.message ?: "", e, trace2)
     log("INFO", "500 Internal Server Error: GET /", trace2)
 }

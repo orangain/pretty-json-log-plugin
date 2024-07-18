@@ -80,48 +80,43 @@ enum class Level {
 
 fun extractTimestamp(node: JsonNode): Timestamp? {
 
-    return timestampKeys.firstOrNull { node.has(it) }?.let { timestampKey ->
-        node.get(timestampKey)
-            ?.let { node ->
-                if (node.isNumber) {
-                    // We assume that the number is a Unix timestamp in milliseconds.
-                    Timestamp.fromEpochMilli(node.asLong())
-                } else {
-                    Timestamp.fromString(node.asText())
-                }
-            }
+    return timestampKeys.firstNotNullOfOrNull { node.get(it) }?.let { node ->
+        if (node.isNumber) {
+            // We assume that the number is a Unix timestamp in milliseconds.
+            Timestamp.fromEpochMilli(node.asLong())
+        } else {
+            Timestamp.fromString(node.asText())
+        }
     }
 }
 
 private val levelKeys = listOf("level", "severity", "log.level")
 
 fun extractLevel(node: JsonNode): Level? {
-    return levelKeys.firstOrNull { node.has(it) }?.let { levelKey ->
-        node.get(levelKey)
-            ?.let { node ->
-                if (node.isNumber) {
-                    Level.fromInt(node.asInt())
-                } else {
-                    Level.fromString(node.asText())
-                }
-            }
+    return levelKeys.firstNotNullOfOrNull { node.get(it) }?.let { node ->
+        if (node.isNumber) {
+            Level.fromInt(node.asInt())
+        } else {
+            Level.fromString(node.asText())
+        }
     }
 }
 
 private val messageKeys = listOf("message", "msg", "error.message")
 
 fun extractMessage(node: JsonNode): String? {
-    return messageKeys.firstOrNull { node.has(it) }?.let { messageKey ->
-        node.get(messageKey)
-            ?.asText()
-    }
+    return messageKeys.firstNotNullOfOrNull { node.get(it) }?.asText()
 }
 
-private val stackTraceKeys = listOf("error.stack_trace")
+typealias NodeExtractor = (JsonNode) -> JsonNode?
+
+private val stackTraceNodeExtractors: List<NodeExtractor> = listOf(
+    { it.get("stack_trace") },
+    { it.get("exception") },
+    { it.get("error.stack_trace") },
+    { it.get("err")?.get("stack") },
+)
 
 fun extractStackTrace(node: JsonNode): String? {
-    return stackTraceKeys.firstOrNull { node.has(it) }?.let { stackTraceKey ->
-        node.get(stackTraceKey)
-            ?.asText()
-    }
+    return stackTraceNodeExtractors.firstNotNullOfOrNull { it(node) }?.asText()
 }

@@ -23,6 +23,28 @@ private val params = listOf(
         "There was an error in the application.",
         null,
     ),
+    // https://cloud.google.com/error-reporting/docs/formatting-error-messages#log-error
+    ExtractParam(
+        "Cloud Logging with stack trace in the stack_trace field for Error Reporting",
+        """{"severity":"ERROR", "message":"There was an error in the application.","stack_trace": "com.example.shop.TemplateCartDiv retrieveCart: Error\njava.lang.IndexOutOfBoundsException: Index: 4, Size: 4\n\tat java.util.ArrayList.rangeCheck(ArrayList.java:635)\n","time":"2020-10-12T07:20:50.52Z"}""",
+        Timestamp.Parsed(Instant.parse("2020-10-12T07:20:50.52Z")),
+        Level.ERROR,
+        "There was an error in the application.",
+        "com.example.shop.TemplateCartDiv retrieveCart: Error\n"
+                + "java.lang.IndexOutOfBoundsException: Index: 4, Size: 4\n"
+                + "\tat java.util.ArrayList.rangeCheck(ArrayList.java:635)\n",
+    ),
+    // https://cloud.google.com/error-reporting/docs/formatting-error-messages#log-error
+    ExtractParam(
+        "Cloud Logging with stack trace in the exception field for Error Reporting",
+        """{"severity":"ERROR", "message":"There was an error in the application.","exception": "com.example.shop.TemplateCartDiv retrieveCart: Error\njava.lang.IndexOutOfBoundsException: Index: 4, Size: 4\n\tat java.util.ArrayList.rangeCheck(ArrayList.java:635)\n","time":"2020-10-12T07:20:50.52Z"}""",
+        Timestamp.Parsed(Instant.parse("2020-10-12T07:20:50.52Z")),
+        Level.ERROR,
+        "There was an error in the application.",
+        "com.example.shop.TemplateCartDiv retrieveCart: Error\n"
+                + "java.lang.IndexOutOfBoundsException: Index: 4, Size: 4\n"
+                + "\tat java.util.ArrayList.rangeCheck(ArrayList.java:635)\n",
+    ),
     // https://pkg.go.dev/log/slog
     ExtractParam(
         "log/slog in Go",
@@ -35,11 +57,11 @@ private val params = listOf(
     // https://github.com/trentm/node-bunyan
     ExtractParam(
         "Bunyan",
-        """{"name":"myapp","hostname":"banana.local","pid":40161,"level":30,"msg":"hi","time":"2013-01-04T18:46:23.851Z","v":0}""",
+        """{"name":"myapp","hostname":"banana.local","pid":40161,"level":30,"msg":"hi","time":"2013-01-04T18:46:23.851Z","v":0,"err":{"message":"boom","name":"TypeError","stack":"TypeError: boom\n    at Object.<anonymous> ..."}}""",
         Timestamp.Parsed(Instant.parse("2013-01-04T18:46:23.851Z")),
         Level.INFO,
         "hi",
-        null,
+        "TypeError: boom\n    at Object.<anonymous> ...",
     ),
     // https://github.com/pinojs/pino
     ExtractParam(
