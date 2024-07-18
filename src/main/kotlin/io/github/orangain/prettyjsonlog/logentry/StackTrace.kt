@@ -2,8 +2,6 @@ package io.github.orangain.prettyjsonlog.logentry
 
 import com.fasterxml.jackson.databind.JsonNode
 
-typealias NodeExtractor = (JsonNode) -> JsonNode?
-
 private val stackTraceNodeExtractors: List<NodeExtractor> = listOf(
     { it.get("stack_trace") },
     { it.get("exception") },
