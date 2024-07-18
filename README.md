@@ -62,10 +62,14 @@ After:
 
 ![One folding marker](media/settings-folding-after.png)
 
----
+## Acknowledgements
+
 This plugin is inspired by the [pino-pretty](https://github.com/pinojs/pino-pretty)
-and [bunyan CLI](https://github.com/trentm/node-bunyan). It is based on
-the [IntelliJ Platform Plugin Template][template].
+and [bunyan CLI](https://github.com/trentm/node-bunyan). The great idea behind these tools is that applications should
+write logs in machine-readable format (JSON) and pretty-printing for human readability should be done by another tool. I
+am grateful to the authors of these tools.
+
+Thanks to the [IntelliJ Platform Plugin Template][template], I was able to quickly start developing the plugin.
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
 
