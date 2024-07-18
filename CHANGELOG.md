@@ -5,8 +5,9 @@
 ## [Unreleased]
 
 ### Added
-- Showing stacktrace when present
-- Support for log level in ECS
+
+- Showing stacktrace when present by @vonProteus
+- Support for log level in Elastic Common Schema (ECS) by @vonProteus
 
 ## [0.1.0] - 2024-06-22
 
