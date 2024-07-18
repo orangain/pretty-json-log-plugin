@@ -43,12 +43,12 @@ private val timestampKeys = listOf("timestamp", "time", "@timestamp")
 
 fun extractTimestamp(node: JsonNode): Timestamp? {
 
-    return timestampKeys.firstNotNullOfOrNull { node.get(it) }?.let { node ->
-        if (node.isNumber) {
+    return timestampKeys.firstNotNullOfOrNull { node.get(it) }?.let { timestampNode ->
+        if (timestampNode.isNumber) {
             // We assume that the number is a Unix timestamp in milliseconds.
-            Timestamp.fromEpochMilli(node.asLong())
+            Timestamp.fromEpochMilli(timestampNode.asLong())
         } else {
-            Timestamp.fromString(node.asText())
+            Timestamp.fromString(timestampNode.asText())
         }
     }
 }

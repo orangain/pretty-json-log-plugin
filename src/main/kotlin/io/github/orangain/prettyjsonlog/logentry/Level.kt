@@ -42,11 +42,11 @@ enum class Level {
 private val levelKeys = listOf("level", "severity", "log.level")
 
 fun extractLevel(node: JsonNode): Level? {
-    return levelKeys.firstNotNullOfOrNull { node.get(it) }?.let { node ->
-        if (node.isNumber) {
-            Level.fromInt(node.asInt())
+    return levelKeys.firstNotNullOfOrNull { node.get(it) }?.let { levelNode ->
+        if (levelNode.isNumber) {
+            Level.fromInt(levelNode.asInt())
         } else {
-            Level.fromString(node.asText())
+            Level.fromString(levelNode.asText())
         }
     }
 }
