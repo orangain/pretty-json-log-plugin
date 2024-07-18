@@ -33,16 +33,19 @@ class MyConsoleInputFilter : InputFilter {
         val level = extractLevel(node)
         val message = extractMessage(node)
         val stackTrace = extractStackTrace(node)
-        val coloredMessage = "$level: $message" + (if (stackTrace?.isNotEmpty() == true) "\n$stackTrace" else "")
+        // .trimEnd('\n') is necessary because of the following reasons:
+        // - When stackTrace is null or empty, we don't want to add an extra newline.
+        // - When stackTrace ends with a newline, trimming the last newline makes a folding marker look better.
+        val coloredMessage = "$level: $message\n${stackTrace ?: ""}".trimEnd('\n')
 
         val jsonString = prettyPrintJson(node)
         return mutableListOf(
             Pair("[${timestamp?.format(zoneId, timestampFormatter)}] ", contentType),
             Pair(coloredMessage, contentTypeOf(level, contentType)),
             Pair(
-                " \n$jsonString$suffixWhitespaces",
+                " \n$jsonString$suffixWhitespaces", // Adding a space at the end of line makes a folding marker look better.
                 contentType
-            ), // Add a space to at the end of line to make it look good when folded.
+            ),
         )
     }
 }
