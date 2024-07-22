@@ -7,7 +7,7 @@ kotlin = "2.0.0"
 changelog = "2.2.1"
 gradleIntelliJPlugin = "1.17.4"
 qodana = "0.1.13"
-kover = "0.8.2"
+kover = "0.8.3"
 
 [libraries]
 jacksonModuleKotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version.ref = "jacksonModuleKotlin" }
