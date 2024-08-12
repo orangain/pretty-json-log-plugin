@@ -12,6 +12,8 @@
         <consoleInputFilterProvider
                 implementation="io.github.orangain.prettyjsonlog.console.MyConsoleInputFilterProvider"/>
         <console.folding implementation="io.github.orangain.prettyjsonlog.console.MyConsoleFolding"/>
+        <!-- Prevent folding when a stack trace is included in the JSON log. -->
+        <stacktrace.fold substring="&quot;:" negate="true"/>
     </extensions>
 
     <applicationListeners>
