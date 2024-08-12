@@ -44,6 +44,15 @@ switch log formats between production and local development environments.
 
 After installation, newly written JSON lines logs in the console will be automatically formatted by the plugin.
 
+## Limitations
+
+JetBrains IDEs provide different kinds of consoles for different run configurations, but this plugin does not currently
+support all consoles due to the lack of extension points in the IDE. The following consoles are known to not work with
+the plugin:
+
+- Shell scripts run configurations
+- Rider's console
+
 ## How to see the debug log of the plugin
 
 1. <kbd>Help</kbd> > <kbd>Diagnostic Tools</kbd> > <kbd>Debug Log Settings...</kbd>.
