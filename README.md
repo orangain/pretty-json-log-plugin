@@ -49,8 +49,7 @@ After installation, newly written JSON lines logs in the console will be automat
 1. <kbd>Help</kbd> > <kbd>Diagnostic Tools</kbd> > <kbd>Debug Log Settings...</kbd>.
 2. Add line `#io.github.orangain.prettyjsonlog` to the text area of the dialog and click <kbd>OK</kbd>.
 3. Reproduce the issue.
-4. <kbd>Help</kbd> > <kbd>Show Log in Finder</kbd> (or similar menu item depending on your OS) to open the log
-   directory.
+4. <kbd>Help</kbd> > <kbd>Show Log in Finder/Explorer</kbd> to open the log directory.
 5. Open the `idea.log` file and find the log of the plugin by searching for `#io.github.orangain.prettyjsonlog`.
 
 Enabling debug logging may slow down the IDE, so it is recommended to disable it after reproducing the issue.
