@@ -105,6 +105,14 @@ private val params = listOf(
                 "\tat java.base/java.util.concurrent.ThreadPoolExecutor\$Worker.run(ThreadPoolExecutor.java:642)\n" +
                 "\tat java.base/java.lang.Thread.run(Thread.java:1583)\n",
     ),
+    ExtractParam(
+        "Zap Logger Production Default",
+        """{"caller": "devorer/main.go:60", "level": "info", "msg": "application starting...", "ts": 1.723487295894624E12}""",
+        Timestamp.Parsed(Instant.parse("2024-08-12T18:28:15.894Z")),
+        Level.INFO,
+        "application starting...",
+        null,
+    )
 )
 
 class ExtractTest : TestCase() {
