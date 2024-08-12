@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter
 
 class MyConsoleInputFilterProvider : ConsoleInputFilterProvider {
     override fun getDefaultFilters(project: Project): Array<InputFilter> {
+        thisLogger().debug("getDefaultFilters")
         return arrayOf(MyConsoleInputFilter())
     }
 }
