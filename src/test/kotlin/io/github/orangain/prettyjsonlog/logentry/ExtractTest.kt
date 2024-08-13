@@ -107,8 +107,8 @@ private val params = listOf(
     ),
     ExtractParam(
         "Zap Logger Production Default",
-        """{"caller": "devorer/main.go:60", "level": "info", "msg": "application starting...", "ts": 1.723487295894624E12}""",
-        Timestamp.Parsed(Instant.parse("2024-08-12T18:28:15.894Z")),
+        """{"caller": "devorer/main.go:60", "level": "info", "msg": "application starting...", "ts": 1.7235729053485353E9}""",
+        Timestamp.Parsed(Instant.parse("1970-01-20T22:46:12.905Z")),
         Level.INFO,
         "application starting...",
         null,
