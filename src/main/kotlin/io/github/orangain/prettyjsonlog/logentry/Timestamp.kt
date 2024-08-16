@@ -23,8 +23,18 @@ sealed interface Timestamp {
     }
 
     companion object {
-        fun fromEpochMilli(value: Long): Parsed {
-            return Parsed(Instant.ofEpochMilli(value))
+        fun fromEpoch(value: Long): Parsed {
+            return Parsed(
+                when {
+                    value < 10_000_000_000L -> Instant.ofEpochSecond(value)
+                    value < 10_000_000_000_000L -> Instant.ofEpochMilli(value)
+                    value < 10_000_000_000_000_000L -> Instant.ofEpochSecond(
+                        value / 1_000_000,
+                        (value % 1_000_000) * 1_000
+                    ) // microseconds
+                    else -> Instant.ofEpochSecond(value / 1_000_000_000, value % 1_000_000_000) // nanoseconds
+                }
+            )
         }
 
         fun fromString(value: String): Timestamp {
@@ -45,8 +55,8 @@ fun extractTimestamp(node: JsonNode): Timestamp? {
 
     return timestampKeys.firstNotNullOfOrNull { node.get(it) }?.let { timestampNode ->
         if (timestampNode.isNumber) {
-            // We assume that the number is a Unix timestamp in milliseconds.
-            Timestamp.fromEpochMilli(timestampNode.asLong())
+            // We assume that the number is a Unix timestamp in seconds, milliseconds, microseconds, or nanoseconds.
+            Timestamp.fromEpoch(timestampNode.asLong())
         } else {
             Timestamp.fromString(timestampNode.asText())
         }
