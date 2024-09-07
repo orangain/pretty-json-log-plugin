@@ -126,6 +126,18 @@ private val params = listOf(
                at Program.<Main>${'$'}(String[] args) in /Users/orange/RiderProjects/ConsoleApp1/ConsoleApp1/Program.cs:line 19
         """.trimIndent(),
     ),
+    // https://github.com/serilog/serilog/blob/main/src/Serilog/Formatting/Json/JsonFormatter.cs
+    ExtractParam(
+        "Serilog Rendered JSON",
+        """{"Timestamp":"2024-09-07T15:48:19.6174980+09:00","Level":"Error","MessageTemplate":"Unhandled exception","RenderedMessage":"Unhandled exception","Exception":"System.InvalidOperationException: Oops...\n   at Program.<Main>${'$'}(String[] args) in /Users/orange/RiderProjects/ConsoleApp1/ConsoleApp1/Program.cs:line 19"}""",
+        Timestamp.Parsed(Instant.parse("2024-09-07T06:48:19.617498Z")),
+        Level.ERROR,
+        "Unhandled exception",
+        """
+            System.InvalidOperationException: Oops...
+               at Program.<Main>${'$'}(String[] args) in /Users/orange/RiderProjects/ConsoleApp1/ConsoleApp1/Program.cs:line 19
+        """.trimIndent(),
+    ),
 )
 
 class ExtractTest : TestCase() {

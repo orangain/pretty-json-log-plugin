@@ -8,6 +8,7 @@ private val stackTraceNodeExtractors: List<NodeExtractor> = listOf(
     { it.get("error.stack_trace") },
     { it.get("err")?.get("stack") },
     { it.get("@x") },
+    { it.get("Exception") },
 )
 
 fun extractStackTrace(node: JsonNode): String? {
