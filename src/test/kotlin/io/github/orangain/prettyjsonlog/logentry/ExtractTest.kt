@@ -113,7 +113,19 @@ private val params = listOf(
         Level.INFO,
         "application starting...",
         null,
-    )
+    ),
+    // https://github.com/serilog/serilog-formatting-compact?tab=readme-ov-file#format-details
+    ExtractParam(
+        "Serilog Rendered Compact JSON",
+        """{"@t":"2024-09-07T03:50:13.7292340Z","@m":"Unhandled exception","@i":"f80f533c","@l":"Error","@x":"System.InvalidOperationException: Oops...\n   at Program.<Main>${'$'}(String[] args) in /Users/orange/RiderProjects/ConsoleApp1/ConsoleApp1/Program.cs:line 19"}""",
+        Timestamp.Parsed(Instant.parse("2024-09-07T03:50:13.7292340Z")),
+        Level.ERROR,
+        "Unhandled exception",
+        """
+            System.InvalidOperationException: Oops...
+               at Program.<Main>${'$'}(String[] args) in /Users/orange/RiderProjects/ConsoleApp1/ConsoleApp1/Program.cs:line 19
+        """.trimIndent(),
+    ),
 )
 
 class ExtractTest : TestCase() {
