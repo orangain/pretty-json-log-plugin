@@ -20,4 +20,20 @@
         <listener class="io.github.orangain.prettyjsonlog.listeners.MyApplicationActivationListener"
                   topic="com.intellij.openapi.application.ApplicationActivationListener"/>
     </applicationListeners>
+
+    <actions>
+        <group id="prettyjsonlog.ConsoleContextMenuRoot">
+            <add-to-group group-id="ConsoleView.PopupMenu" anchor="first"/>
+
+            <group id="prettyjsonlog.ConsoleContextMenuGroup" popup="true" text="Pretty JSON Log">
+                <action
+                        id="prettyjsonlog.MyCustomAction"
+                        class="io.github.orangain.prettyjsonlog.action.ToggleEnabledAction"
+                        text="Formatting Enabled"
+                        description="Enable or disable formatting of JSON logs in the console">
+                </action>
+            </group>
+            <separator/>
+        </group>
+    </actions>
 </idea-plugin>
