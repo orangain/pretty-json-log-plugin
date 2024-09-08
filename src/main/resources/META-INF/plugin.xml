@@ -22,12 +22,12 @@
     </applicationListeners>
 
     <actions>
-        <group id="prettyjsonlog.ConsoleContextMenuRoot">
+        <group id="io.github.orangain.prettyjsonlog.ConsoleContextMenuRoot">
             <add-to-group group-id="ConsoleView.PopupMenu" anchor="first"/>
 
-            <group id="prettyjsonlog.ConsoleContextMenuGroup" popup="true" text="Pretty JSON Log">
+            <group id="io.github.orangain.prettyjsonlog.ConsoleContextMenuGroup" popup="true" text="Pretty JSON Log">
                 <action
-                        id="prettyjsonlog.MyCustomAction"
+                        id="io.github.orangain.prettyjsonlog.action.ToggleEnabledAction"
                         class="io.github.orangain.prettyjsonlog.action.ToggleEnabledAction"
                         text="Formatting Enabled"
                         description="Enable or disable formatting of JSON logs in the console">
