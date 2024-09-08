@@ -16,6 +16,8 @@ import io.github.orangain.prettyjsonlog.service.EphemeralStateService
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
+// We use ConsoleDependentInputFilterProvider instead of ConsoleInputFilterProvider because we need to access
+// ConsoleView and Project in the filter.
 class MyConsoleInputFilterProvider : ConsoleDependentInputFilterProvider() {
     override fun getDefaultFilters(
         consoleView: ConsoleView,

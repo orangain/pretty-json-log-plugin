@@ -24,6 +24,8 @@ class MyConsoleFolding : ConsoleFolding() {
     }
 
     override fun isEnabledForConsole(consoleView: ConsoleView): Boolean {
+        // This method "isEnabledForConsole" is not for storing consoleView, but we use it for that purpose because
+        // there is no other way to get consoleView reference in "shouldFoldLine" method.
         this.consoleView = consoleView
         return true
     }

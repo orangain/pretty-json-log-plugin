@@ -9,14 +9,14 @@ class EphemeralStateService {
     private val enabledMap = WeakHashMap<ConsoleView, Boolean>()
 
     /**
-     * Returns true if the filter is enabled for the given console view.
+     * Returns true if the formatting is enabled for the given console view.
      */
     fun isEnabled(consoleView: ConsoleView): Boolean {
-        return enabledMap[consoleView] ?: true
+        return enabledMap[consoleView] ?: true // default is true
     }
 
     /**
-     * Sets the enabled state for the given console view.
+     * Sets the enabled state of the formatting for the given console view.
      */
     fun setEnabled(consoleView: ConsoleView, value: Boolean) {
         enabledMap[consoleView] = value
