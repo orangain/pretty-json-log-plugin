@@ -47,11 +47,10 @@ After installation, newly written JSON lines logs in the console will be automat
 ## Limitations
 
 JetBrains IDEs provide different kinds of consoles for different run configurations, but this plugin does not currently
-support all consoles due to the lack of extension points in the IDE. The following consoles are known to not work with
-the plugin:
+support all consoles due to the lack of extension points in the IDE. The console which does have the following context
+menu item is not supported.
 
-- Shell scripts run configurations
-- Rider's console
+![Context menu item with text "Pretty JSON Log"](media/context-menu.png)
 
 ## How to see the debug log of the plugin
 
