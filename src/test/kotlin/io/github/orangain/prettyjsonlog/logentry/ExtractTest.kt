@@ -105,6 +105,7 @@ private val params = listOf(
                 "\tat java.base/java.util.concurrent.ThreadPoolExecutor\$Worker.run(ThreadPoolExecutor.java:642)\n" +
                 "\tat java.base/java.lang.Thread.run(Thread.java:1583)\n",
     ),
+    // https://pkg.go.dev/go.uber.org/zap
     ExtractParam(
         "Zap Logger Production Default",
         """{"caller": "devorer/main.go:60", "level": "info", "msg": "application starting...", "ts": 1.7235729053485353E9}""",
@@ -112,7 +113,31 @@ private val params = listOf(
         Level.INFO,
         "application starting...",
         null,
-    )
+    ),
+    // https://github.com/serilog/serilog-formatting-compact?tab=readme-ov-file#format-details
+    ExtractParam(
+        "Serilog Rendered Compact JSON",
+        """{"@t":"2024-09-07T03:50:13.7292340Z","@m":"Unhandled exception","@i":"f80f533c","@l":"Error","@x":"System.InvalidOperationException: Oops...\n   at Program.<Main>${'$'}(String[] args) in /Users/orange/RiderProjects/ConsoleApp1/ConsoleApp1/Program.cs:line 19"}""",
+        Timestamp.Parsed(Instant.parse("2024-09-07T03:50:13.7292340Z")),
+        Level.ERROR,
+        "Unhandled exception",
+        """
+            System.InvalidOperationException: Oops...
+               at Program.<Main>${'$'}(String[] args) in /Users/orange/RiderProjects/ConsoleApp1/ConsoleApp1/Program.cs:line 19
+        """.trimIndent(),
+    ),
+    // https://github.com/serilog/serilog/blob/main/src/Serilog/Formatting/Json/JsonFormatter.cs
+    ExtractParam(
+        "Serilog Rendered JSON",
+        """{"Timestamp":"2024-09-07T15:48:19.6174980+09:00","Level":"Error","MessageTemplate":"Unhandled exception","RenderedMessage":"Unhandled exception","Exception":"System.InvalidOperationException: Oops...\n   at Program.<Main>${'$'}(String[] args) in /Users/orange/RiderProjects/ConsoleApp1/ConsoleApp1/Program.cs:line 19"}""",
+        Timestamp.Parsed(Instant.parse("2024-09-07T06:48:19.617498Z")),
+        Level.ERROR,
+        "Unhandled exception",
+        """
+            System.InvalidOperationException: Oops...
+               at Program.<Main>${'$'}(String[] args) in /Users/orange/RiderProjects/ConsoleApp1/ConsoleApp1/Program.cs:line 19
+        """.trimIndent(),
+    ),
 )
 
 class ExtractTest : TestCase() {

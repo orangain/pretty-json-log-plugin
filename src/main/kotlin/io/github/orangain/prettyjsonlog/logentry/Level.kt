@@ -39,7 +39,7 @@ enum class Level {
     }
 }
 
-private val levelKeys = listOf("level", "severity", "log.level")
+private val levelKeys = listOf("level", "severity", "log.level", "@l", "Level")
 
 fun extractLevel(node: JsonNode): Level? {
     return levelKeys.firstNotNullOfOrNull { node.get(it) }?.let { levelNode ->
