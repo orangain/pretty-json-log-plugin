@@ -20,4 +20,18 @@
         <listener class="io.github.orangain.prettyjsonlog.listeners.MyApplicationActivationListener"
                   topic="com.intellij.openapi.application.ApplicationActivationListener"/>
     </applicationListeners>
+
+    <actions>
+        <group id="io.github.orangain.prettyjsonlog.ConsoleContextMenuRoot">
+            <add-to-group group-id="ConsoleView.PopupMenu" anchor="first"/>
+
+            <group id="io.github.orangain.prettyjsonlog.ConsoleContextMenuGroup" popup="true" text="Pretty JSON Log">
+                <action
+                        id="io.github.orangain.prettyjsonlog.action.ToggleEnabledAction"
+                        class="io.github.orangain.prettyjsonlog.action.ToggleEnabledAction">
+                </action>
+            </group>
+            <separator/>
+        </group>
+    </actions>
 </idea-plugin>
