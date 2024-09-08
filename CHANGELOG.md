@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+### Added
+
+- Support for Serilog reported by @Twinki14
+- Context menu item to toggle formatting in the console
+
 ## [0.3.0] - 2024-08-16
 
 ### Added
