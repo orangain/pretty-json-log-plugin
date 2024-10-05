@@ -1,5 +1,6 @@
 [versions]
 # libraries
+junit = "4.13.2"
 jacksonModuleKotlin = "2.18.0"
 
 # plugins
@@ -10,6 +11,7 @@ kover = "0.8.3"
 qodana = "2024.1.9"
 
 [libraries]
+junit = { group = "junit", name = "junit", version.ref = "junit" }
 jacksonModuleKotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version.ref = "jacksonModuleKotlin" }
 
 [plugins]
