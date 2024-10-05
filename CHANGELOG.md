@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix error when opening context menu, reported by @sabob
+
 ## [0.4.0] - 2024-09-08
 
 ### Added
