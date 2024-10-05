@@ -1,6 +1,6 @@
 [versions]
 # libraries
-jacksonModuleKotlin = "2.17.2"
+jacksonModuleKotlin = "2.18.0"
 
 # plugins
 kotlin = "2.0.20"
