@@ -47,8 +47,9 @@ After installation, newly written JSON lines logs in the console will be automat
 ## Limitations
 
 JetBrains IDEs provide different kinds of consoles for different run configurations, but this plugin does not currently
-support all consoles due to the lack of extension points in the IDE. The console which does have the following context
-menu item is not supported.
+support all consoles due
+to [the lack of extension points in the IDE](https://youtrack.jetbrains.com/issue/IJPL-60196/TerminalExecutionConsole-Extension-points-support).
+If the console does not have the context menu item "Pretty JSON Log", the plugin is not supported in that console.
 
 ![Context menu item with text "Pretty JSON Log"](media/context-menu.png)
 
