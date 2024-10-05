@@ -1,20 +1,22 @@
 [versions]
 # libraries
+junit = "4.13.2"
 jacksonModuleKotlin = "2.18.0"
 
 # plugins
-kotlin = "2.0.20"
 changelog = "2.2.1"
-gradleIntelliJPlugin = "1.17.4"
-qodana = "0.1.13"
+intelliJPlatform = "2.0.1"
+kotlin = "2.0.20"
 kover = "0.8.3"
+qodana = "2024.1.9"
 
 [libraries]
+junit = { group = "junit", name = "junit", version.ref = "junit" }
 jacksonModuleKotlin = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version.ref = "jacksonModuleKotlin" }
 
 [plugins]
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
-gradleIntelliJPlugin = { id = "org.jetbrains.intellij", version.ref = "gradleIntelliJPlugin" }
+intelliJPlatform = { id = "org.jetbrains.intellij.platform", version.ref = "intelliJPlatform" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 qodana = { id = "org.jetbrains.qodana", version.ref = "qodana" }
