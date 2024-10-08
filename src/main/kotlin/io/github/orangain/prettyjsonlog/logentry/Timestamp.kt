@@ -49,7 +49,7 @@ sealed interface Timestamp {
     }
 }
 
-private val timestampKeys = listOf("timestamp", "time", "@timestamp", "ts", "@t", "Timestamp")
+private val timestampKeys = listOf("timestamp", "time", "@timestamp", "ts", "@t", "Timestamp", "timestampNanos")
 
 fun extractTimestamp(node: JsonNode): Timestamp? {
 
