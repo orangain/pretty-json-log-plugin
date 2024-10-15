@@ -61,4 +61,14 @@ fun extractTimestamp(node: JsonNode): Timestamp? {
             Timestamp.fromString(timestampNode.asText())
         }
     }
+    // Fallback to google GCP timestampSeconds and timestampNanos
+
+    val timestampSeconds = node.get("timestampSeconds")?.asLong()
+    val timestampNanos = node.get("timestampNanos")?.asLong()
+    return if (timestampNanos != null && timestampSeconds != null) {
+        Timestamp.Parsed(Instant.ofEpochSecond(timestampSeconds, timestampNanos))
+    } else {
+        null
+    }
 }
+
