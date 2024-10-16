@@ -49,16 +49,28 @@ sealed interface Timestamp {
     }
 }
 
-private val timestampKeys = listOf("timestamp", "time", "@timestamp", "ts", "@t", "Timestamp", "timestampNanos")
+private val timestampKeys = listOf("timestamp", "time", "@timestamp", "ts", "@t", "Timestamp")
 
 fun extractTimestamp(node: JsonNode): Timestamp? {
-
-    return timestampKeys.firstNotNullOfOrNull { node.get(it) }?.let { timestampNode ->
-        if (timestampNode.isNumber) {
+    val timestampNode = timestampKeys.firstNotNullOfOrNull { node.get(it) }
+    if (timestampNode != null) {
+        return if (timestampNode.isNumber) {
             // We assume that the number is a Unix timestamp in seconds, milliseconds, microseconds, or nanoseconds.
             Timestamp.fromEpoch(timestampNode.asLong())
         } else {
             Timestamp.fromString(timestampNode.asText())
         }
+    }
+    // Fallback to google GCP timestampSeconds and timestampNanos
+    return extractTimestampWithSecondsAndNanos(node)
+}
+
+fun extractTimestampWithSecondsAndNanos(node: JsonNode): Timestamp? {
+    val timestampSeconds = node.get("timestampSeconds")?.asLong()
+    val timestampNanos = node.get("timestampNanos")?.asLong()
+    return if (timestampNanos != null && timestampSeconds != null) {
+        Timestamp.Parsed(Instant.ofEpochSecond(timestampSeconds, timestampNanos))
+    } else {
+        null
     }
 }
