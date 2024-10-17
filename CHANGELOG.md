@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+### Added
+
+- Support for timestampNanos and timestampSeconds of StackdriverJsonLayout by @LeeGilbert
+- Support for IntelliJ IDEA 2024.3
+
 ## [0.4.1] - 2024-10-05
 
 ### Fixed
