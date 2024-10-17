@@ -51,7 +51,7 @@ support all consoles due
 to [the lack of extension points in the IDE](https://youtrack.jetbrains.com/issue/IJPL-60196/TerminalExecutionConsole-Extension-points-support).
 If the console does not have the context menu item "Pretty JSON Log", the plugin is not supported in that console.
 
-![Context menu item with text "Pretty JSON Log"](media/context-menu.png)
+<img src="media/context-menu.png" alt="Context menu item with text 'Pretty JSON Log'" width="480">
 
 ## How to see the debug log of the plugin
 
