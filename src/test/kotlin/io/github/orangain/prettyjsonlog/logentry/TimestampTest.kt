@@ -1,5 +1,7 @@
 package io.github.orangain.prettyjsonlog.logentry
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.ObjectNode
 import junit.framework.TestCase
 import java.time.Instant
 
@@ -34,6 +36,20 @@ class TimestampTest : TestCase() {
         testCases.forEach { (input, expected) ->
             val actual = Timestamp.fromEpoch(input)
             assertEquals("Timestamp.fromEpoch($input)", Timestamp.Parsed(Instant.parse(expected)), actual)
+        }
+    }
+
+    fun testExtractGCPTimestampWithSecondsAndNanos() {
+        val testCases = listOf(
+            Pair(Instant.ofEpochSecond(1000, 500), """{"timestampSeconds": 1000, "timestampNanos": 500}"""),
+            Pair(Instant.ofEpochSecond(0, 0), """{"timestampSeconds": 0, "timestampNanos": 0}"""),
+            Pair(Instant.ofEpochSecond(1000000000, 123456789), """{"timestampSeconds": 1000000000, "timestampNanos": 123456789}""")
+        )
+        val objectMapper = ObjectMapper()
+        testCases.forEach { (expectedInstant, jsonString) ->
+            val jsonNode = objectMapper.readTree(jsonString) as ObjectNode
+            val actual = extractTimestampWithSecondsAndNanos(jsonNode)
+            assertEquals("extractTimestampWithSecondsAndNanos($jsonString)", Timestamp.Parsed(expectedInstant), actual)
         }
     }
 }

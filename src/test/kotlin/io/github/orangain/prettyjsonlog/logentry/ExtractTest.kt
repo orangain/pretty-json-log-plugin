@@ -14,6 +14,15 @@ private data class ExtractParam(
 )
 
 private val params = listOf(
+    // https://github.com/GoogleCloudPlatform/spring-cloud-gcp/blob/main/spring-cloud-gcp-logging/src/main/java/com/google/cloud/spring/logging/StackdriverJsonLayout.java
+    ExtractParam(
+        "Google Cloud Json Layout from com.google.cloud.spring.logging.StackdriverJsonLayout",
+        """{"context": "default","logger": "com.example.MyClass","message": "Hello, world!","severity": "INFO","thread": "main","timestampNanos": 69022000,"timestampSeconds": 1729071565}""",
+        Timestamp.Parsed(Instant.parse("2024-10-16T09:39:25.069022Z")),
+        Level.INFO,
+        "Hello, world!",
+        null,
+    ),
     // https://cloud.google.com/logging/docs/structured-logging
     ExtractParam(
         "Cloud Logging",
