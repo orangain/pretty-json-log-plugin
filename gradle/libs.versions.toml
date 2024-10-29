@@ -1,7 +1,7 @@
 [versions]
 # libraries
 junit = "4.13.2"
-jacksonModuleKotlin = "2.18.0"
+jacksonModuleKotlin = "2.18.1"
 
 # plugins
 changelog = "2.2.1"
