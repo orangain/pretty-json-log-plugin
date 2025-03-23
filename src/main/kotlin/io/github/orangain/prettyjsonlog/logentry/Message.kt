@@ -8,9 +8,11 @@ private val messageKeys:List<NodeExtractor> = listOf(
     { it.get("message") },
     { it.get("msg") },
     { it.get("sMsg.msg") },
+    { it.get("sMsg")?.get("msg") },
     { it.get("error.message") },
     { it.get("@m") },
     { it.get("RenderedMessage") },
+    { it.get("msgType") },
 )
 
 fun extractMessage(node: JsonNode): String? {
