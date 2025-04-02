@@ -40,11 +40,11 @@ fun extractMessage(node: JsonNode): String? {
                     currNode = valNode
                 }
             }
-            if(valNode!=null) {
-                if (!extractedMessage.isNullOrEmpty())
+            if(valNode!=null && valNode.asText().isNotEmpty()) {
+                if (!extractedMessage.isNullOrEmpty() ) {
                     extractedMessage += " | "
+                }
                 extractedMessage += valNode.asText()
-                valNode = null
             }
         }
     }
