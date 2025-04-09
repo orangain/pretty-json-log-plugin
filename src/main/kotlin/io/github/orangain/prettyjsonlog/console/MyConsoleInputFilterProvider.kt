@@ -1,5 +1,7 @@
 package io.github.orangain.prettyjsonlog.console
 
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.intellij.execution.filters.ConsoleDependentInputFilterProvider
 import com.intellij.execution.filters.InputFilter
 import com.intellij.execution.ui.ConsoleView
@@ -10,6 +12,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Pair
 import com.intellij.psi.search.GlobalSearchScope
 import io.github.orangain.prettyjsonlog.json.parseJson
+import io.github.orangain.prettyjsonlog.json.prettifyXml
 import io.github.orangain.prettyjsonlog.json.prettyPrintJson
 import io.github.orangain.prettyjsonlog.logentry.*
 import io.github.orangain.prettyjsonlog.service.EphemeralStateService
@@ -33,6 +36,8 @@ private val zoneId = ZoneId.systemDefault()
 private val timestampFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
 
 private val jsonPartPattern = Regex("""\{[^}]*\}""")
+//private val xmlPartPattern = Regex(pattern = """<\?xml.*?\?>.*?<([a-zA-Z_][\w\-.]*)(?:\s[^>]*)?>.*?</\1>""")
+private val xmlPartPattern = Regex("<\\?xml.*?\\?>\\s*<([a-zA-Z_][\\w\\-.]*)(?:\\s[^>]*)?>.*?</\\1>", RegexOption.DOT_MATCHES_ALL)
 
 class MyConsoleInputFilter(
     private val consoleView: ConsoleView,
@@ -46,36 +51,67 @@ class MyConsoleInputFilter(
         if (!isEnabled()) {
             return null
         }
-        val (node, suffixWhitespaces) = parseJson(text) ?: return null
+        val (node, suffixWhitespaces) = parseJson(text) ?: return  null //kotlin.Pair(JsonNodeFactory.instance.objectNode().set("default", JsonNodeFactory.instance.objectNode()), "")
 
         val timestamp = extractTimestamp(node)
         val level = extractLevel(node)
-        val message = extractMessage(node)
         val stackTrace = extractStackTrace(node)
+        var message = "->" +  // Prefix the message with "---> " to make it more readable.
+            extractMessage(node)?.replace("\n", " ") // Replace newlines in the message with spaces to avoid breaking the formatting.
+
         // .trimEnd('\n') is necessary because of the following reasons:
         // - When stackTrace is null or empty, we don't want to add an extra newline.
         // - When stackTrace ends with a newline, trimming the last newline makes a folding marker look better.
-        val coloredMessage = "$level: $message\n${stackTrace ?: ""}".trimEnd('\n')
+        val coloredMessage = "=>$level: $message\n${stackTrace ?: ""}".trimEnd('\n')
+
+        var xmlPrettyPrintString = ""
+        if (message != null) {
+            val xmlParts = xmlPartPattern.findAll(message)
+            for (item in xmlParts.iterator()) {
+                val xmlString = item.groups[0]?.value.toString()
+                val onelineXML = xmlString.replace("\n", "")
+                if (message != null) {
+                    message = message.replace(xmlString, onelineXML)
+                }
+                var xmlPString = prettifyXml(xmlString)
+                xmlPString = xmlPString.replace(Regex("\n[\\s]*\n"), "\n")
+                xmlPString = xmlPString.trimEnd('\n')
+//                xmlPrettyPrintString += "\n$xmlPString"
+                xmlPrettyPrintString +=  if (xmlPrettyPrintString.isEmpty()) xmlPString else "\n$xmlPString"
+            }
+            if (xmlPrettyPrintString.isNotEmpty()) {
+                xmlPrettyPrintString = xmlPrettyPrintString.trim()
+            }// Adding a space at the end of line makes a folding marker look better.
+        }
 
         var jsonPartsPrettyString = ""
-        val result = message?.let { jsonPartPattern.findAll(it, 0) }
-        if (result != null) {
-            for(item in result.iterator()) {
+        val jsonParts = message?.let { jsonPartPattern.findAll(it, 0) }
+        if (jsonParts != null) {
+            for(item in jsonParts.iterator()) {
                 for(group in item.groups) {
                     val jString = group?.value.toString()
-                    val (jNode, jSuffixWhitespaces) = parseJson(jString) ?: return null
+                    val (jNode, jSuffixWhitespaces) = parseJson(jString) ?: break
                     val jsonPString = prettyPrintJson(jNode)
-                    jsonPartsPrettyString += "\n$jsonPString$jSuffixWhitespaces"
+                    jsonPartsPrettyString += if (jsonPartsPrettyString.isEmpty()) jsonPString else "\n$jsonPString"
                 }
             }
         }
+//        if (jsonPartsPrettyString.isNotEmpty()) {
+//            jsonPartsPrettyString = jsonPartsPrettyString.trim()
+//            jsonPartsPrettyString = "$jsonPartsPrettyString$suffixWhitespaces"
+//        }// Adding a space at the end of line makes a folding marker look better.
 
-        val jsonString = prettyPrintJson(node)
+        var prettyJsonString = prettyPrintJson(node)
+        val jsonString = "$prettyJsonString$jsonPartsPrettyString$xmlPrettyPrintString"
+        prettyJsonString = ""
+        jsonPartsPrettyString = ""
+        xmlPrettyPrintString = ""
+        message = ""
         return mutableListOf(
             Pair("[${timestamp?.format(zoneId, timestampFormatter)}] ", contentType),
             Pair(coloredMessage, contentTypeOf(level, contentType)),
             Pair(
-                " \n$jsonString$jsonPartsPrettyString$suffixWhitespaces", // Adding a space at the end of line makes a folding marker look better.
+                " \n$jsonString$suffixWhitespaces", // Adding a space at the end of line makes a folding marker look better.
                 contentType
             ),
         )
