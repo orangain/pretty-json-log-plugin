@@ -10,6 +10,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Pair
 import com.intellij.psi.search.GlobalSearchScope
 import io.github.orangain.prettyjsonlog.json.parseJson
+import io.github.orangain.prettyjsonlog.json.prettifyXml
 import io.github.orangain.prettyjsonlog.json.prettyPrintJson
 import io.github.orangain.prettyjsonlog.logentry.*
 import io.github.orangain.prettyjsonlog.service.EphemeralStateService
@@ -33,6 +34,8 @@ private val zoneId = ZoneId.systemDefault()
 private val timestampFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
 
 private val jsonPartPattern = Regex("""\{[^}]*\}""")
+//private val xmlPartPattern = Regex(pattern = """<\?xml.*?\?>.*?<([a-zA-Z_][\w\-.]*)(?:\s[^>]*)?>.*?</\1>""")
+private val xmlPartPattern = Regex("<\\?xml.*?\\?>\\s*<([a-zA-Z_][\\w\\-.]*)(?:\\s[^>]*)?>.*?</\\1>", RegexOption.DOT_MATCHES_ALL)
 
 class MyConsoleInputFilter(
     private val consoleView: ConsoleView,
@@ -50,17 +53,33 @@ class MyConsoleInputFilter(
 
         val timestamp = extractTimestamp(node)
         val level = extractLevel(node)
-        val message = extractMessage(node)
         val stackTrace = extractStackTrace(node)
+        var message = extractMessage(node)
+
+        var xmlPrettyPrintString = ""
+        if (message != null) {
+            val xmlParts = xmlPartPattern.findAll(message)
+            for (item in xmlParts.iterator()) {
+                for (group in item.groups) {
+                    val xmlString = group?.value.toString()
+                    if (message != null) {
+                        message = message.replace(xmlString, xmlString.replace("\n", ""))
+                    }
+                    val xmlPString = prettifyXml(xmlString)
+                    xmlPrettyPrintString += "\n$xmlPString"
+                }
+            }
+        }
+
         // .trimEnd('\n') is necessary because of the following reasons:
         // - When stackTrace is null or empty, we don't want to add an extra newline.
         // - When stackTrace ends with a newline, trimming the last newline makes a folding marker look better.
         val coloredMessage = "$level: $message\n${stackTrace ?: ""}".trimEnd('\n')
 
         var jsonPartsPrettyString = ""
-        val result = message?.let { jsonPartPattern.findAll(it, 0) }
-        if (result != null) {
-            for(item in result.iterator()) {
+        val jsonParts = message?.let { jsonPartPattern.findAll(it, 0) }
+        if (jsonParts != null) {
+            for(item in jsonParts.iterator()) {
                 for(group in item.groups) {
                     val jString = group?.value.toString()
                     val (jNode, jSuffixWhitespaces) = parseJson(jString) ?: return null
@@ -75,7 +94,7 @@ class MyConsoleInputFilter(
             Pair("[${timestamp?.format(zoneId, timestampFormatter)}] ", contentType),
             Pair(coloredMessage, contentTypeOf(level, contentType)),
             Pair(
-                " \n$jsonString$jsonPartsPrettyString$suffixWhitespaces", // Adding a space at the end of line makes a folding marker look better.
+                " \n$jsonString$jsonPartsPrettyString$xmlPrettyPrintString$suffixWhitespaces", // Adding a space at the end of line makes a folding marker look better.
                 contentType
             ),
         )
