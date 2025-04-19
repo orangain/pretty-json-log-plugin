@@ -16,6 +16,12 @@ plugins {
 group = providers.gradleProperty("pluginGroup").get()
 version = providers.gradleProperty("pluginVersion").get()
 
+configure<SourceSetContainer> {
+    named("main") {
+        java.srcDir("src/main/kotlin")
+    }
+}
+
 // Set the JVM language level used to build the project.
 kotlin {
     jvmToolchain(17)

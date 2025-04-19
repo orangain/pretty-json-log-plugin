@@ -32,6 +32,8 @@ class MyConsoleInputFilterProvider : ConsoleDependentInputFilterProvider() {
 private val zoneId = ZoneId.systemDefault()
 private val timestampFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
 
+private val jsonPartPattern = Regex("""\{[^}]*\}""")
+
 class MyConsoleInputFilter(
     private val consoleView: ConsoleView,
     private val project: Project
@@ -55,12 +57,25 @@ class MyConsoleInputFilter(
         // - When stackTrace ends with a newline, trimming the last newline makes a folding marker look better.
         val coloredMessage = "$level: $message\n${stackTrace ?: ""}".trimEnd('\n')
 
+        var jsonPartsPrettyString = ""
+        val result = message?.let { jsonPartPattern.findAll(it, 0) }
+        if (result != null) {
+            for(item in result.iterator()) {
+                for(group in item.groups) {
+                    val jString = group?.value.toString()
+                    val (jNode, jSuffixWhitespaces) = parseJson(jString) ?: return null
+                    val jsonPString = prettyPrintJson(jNode)
+                    jsonPartsPrettyString += "\n$jsonPString$jSuffixWhitespaces"
+                }
+            }
+        }
+
         val jsonString = prettyPrintJson(node)
         return mutableListOf(
             Pair("[${timestamp?.format(zoneId, timestampFormatter)}] ", contentType),
             Pair(coloredMessage, contentTypeOf(level, contentType)),
             Pair(
-                " \n$jsonString$suffixWhitespaces", // Adding a space at the end of line makes a folding marker look better.
+                " \n$jsonString$jsonPartsPrettyString$suffixWhitespaces", // Adding a space at the end of line makes a folding marker look better.
                 contentType
             ),
         )
