@@ -82,3 +82,12 @@ Thanks to the [IntelliJ Platform Plugin Template][template], I was able to quick
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
 
 [docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
+
+## Internal
+
+### How to release
+
+1. Update `pluginVersion` in `gradle.properties` and merge it into the main branch.
+2. Publish a release note with the new version.
+3. Approve deployment.
+4. The new version will be reviewed by JetBrains and if there are no problems, it will be published in Marketplace.
