@@ -53,6 +53,13 @@ If the console does not have the context menu item "Pretty JSON Log", the plugin
 
 <img src="media/context-menu.png" alt="Context menu item with text 'Pretty JSON Log'" width="480">
 
+## How to configure log colors
+
+You can configure log colors from the <kbd>Settings</kbd> > <kbd>Editor</kbd> > <kbd>Color Scheme</kbd> > <kbd>Console
+Colors</kbd> > <kbd>Log console</kbd>.
+
+![Settings for log colors](media/log-colors.png)
+
 ## How to see the debug log of the plugin
 
 1. <kbd>Help</kbd> > <kbd>Diagnostic Tools</kbd> > <kbd>Debug Log Settings...</kbd>.
