@@ -53,6 +53,13 @@ If the console does not have the context menu item "Pretty JSON Log", the plugin
 
 <img src="media/context-menu.png" alt="Context menu item with text 'Pretty JSON Log'" width="480">
 
+## How to configure log colors
+
+You can configure log colors from the <kbd>Settings</kbd> > <kbd>Editor</kbd> > <kbd>Color Scheme</kbd> > <kbd>Console
+Colors</kbd> > <kbd>Log console</kbd>.
+
+![Settings for log colors](media/log-colors.png)
+
 ## How to see the debug log of the plugin
 
 1. <kbd>Help</kbd> > <kbd>Diagnostic Tools</kbd> > <kbd>Debug Log Settings...</kbd>.
@@ -75,3 +82,12 @@ Thanks to the [IntelliJ Platform Plugin Template][template], I was able to quick
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
 
 [docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
+
+## Internal
+
+### How to release
+
+1. Update `pluginVersion` in `gradle.properties` and merge it into the main branch.
+2. Publish a release note with the new version.
+3. Approve deployment.
+4. The new version will be reviewed by JetBrains and if there are no problems, it will be published in Marketplace.

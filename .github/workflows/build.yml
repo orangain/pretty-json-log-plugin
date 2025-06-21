@@ -48,8 +48,8 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: zulu
-          java-version: 17
+          distribution: temurin
+          java-version: 21
 
       # Setup Gradle
       - name: Setup Gradle
@@ -108,8 +108,8 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: zulu
-          java-version: 17
+          distribution: temurin
+          java-version: 21
 
       # Setup Gradle
       - name: Setup Gradle
@@ -129,7 +129,7 @@ jobs:
 
       # Upload the Kover report to CodeCov
       - name: Upload Code Coverage Report
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           files: ${{ github.workspace }}/build/reports/kover/report.xml
 
@@ -162,12 +162,12 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: zulu
-          java-version: 17
+          distribution: temurin
+          java-version: 21
 
       # Run Qodana inspections
       - name: Qodana - Code Inspection
-        uses: JetBrains/qodana-action@v2024.2
+        uses: JetBrains/qodana-action@v2024.3
         with:
           cache-default-branch-only: true
 
@@ -193,8 +193,8 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: zulu
-          java-version: 17
+          distribution: temurin
+          java-version: 21
 
       # Setup Gradle
       - name: Setup Gradle
