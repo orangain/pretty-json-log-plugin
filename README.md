@@ -44,6 +44,14 @@ switch log formats between production and local development environments.
 
 After installation, newly written JSON lines logs in the console will be automatically formatted by the plugin.
 
+Add settings > Tools > Pretty Log Json Settings, all the possible fields to be added in the highlght log part (for message and error fields) as below
+
+<img width="986" alt="image" src="https://github.com/user-attachments/assets/a9740fbd-93bb-46da-998e-74388306ab85" />
+
+Log view
+<img width="1569" alt="image" src="https://github.com/user-attachments/assets/b5151bd7-0030-432a-b3ae-a914ba915de7" />
+
+
 ## Limitations
 
 JetBrains IDEs provide different kinds of consoles for different run configurations, but this plugin does not currently
