@@ -3,20 +3,12 @@ package io.github.orangain.prettyjsonlog.logentry
 import com.fasterxml.jackson.databind.JsonNode
 import io.github.orangain.prettyjsonlog.AppSettings
 
-private val stackTraceNodeExtractors: List<NodeExtractor> = listOf(
-    { it.get("stack_trace") },
-    { it.get("exception") },
-    { it.get("error.stack_trace") },
-    { it.get("err")?.get("stack") },
-    { it.get("@x") },
-    { it.get("Exception") },
-)
-
-fun extractStackTrace1(node: JsonNode): String? {
-    return stackTraceNodeExtractors.firstNotNullOfOrNull { it(node) }?.asText()
-}
-
-
+/**
+ * Extracts a stack trace from a JSON node based on the configured error fields in AppSettings.
+ *
+ * @param node The JSON node from which to extract the stack trace.
+ * @return The extracted stack trace as a String, or null if no stack trace could be extracted.
+ */
 fun extractStackTrace(node: JsonNode): String? {
     var extractedMessage: String? = ""
 

@@ -3,10 +3,6 @@ package io.github.orangain.prettyjsonlog.json
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ObjectNode
-import com.google.type.DateTime
-import com.intellij.openapi.diagnostic.thisLogger
-import java.text.SimpleDateFormat
-import java.util.Date
 
 private val jsonPattern = Regex("""^\s*(\{.*})(\s*)$""")
 
