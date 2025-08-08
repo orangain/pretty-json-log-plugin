@@ -1,6 +1,5 @@
 package io.github.orangain.prettyjsonlog.console
 
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.intellij.execution.filters.ConsoleDependentInputFilterProvider
 import com.intellij.execution.filters.InputFilter
@@ -16,8 +15,10 @@ import io.github.orangain.prettyjsonlog.json.prettifyXml
 import io.github.orangain.prettyjsonlog.json.prettyPrintJson
 import io.github.orangain.prettyjsonlog.logentry.*
 import io.github.orangain.prettyjsonlog.service.EphemeralStateService
+import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 // We use ConsoleDependentInputFilterProvider instead of ConsoleInputFilterProvider because we need to access
 // ConsoleView and Project in the filter.
@@ -51,7 +52,30 @@ class MyConsoleInputFilter(
         if (!isEnabled()) {
             return null
         }
-        val (node, suffixWhitespaces) = parseJson(text) ?: return  null //kotlin.Pair(JsonNodeFactory.instance.objectNode().set("default", JsonNodeFactory.instance.objectNode()), "")
+
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        var defaultNode = JsonNodeFactory.instance.objectNode()
+        defaultNode = defaultNode.set("@timestamp", JsonNodeFactory.instance.textNode(dateFormat.format(Date())))
+        defaultNode = defaultNode.set("@level", JsonNodeFactory.instance.textNode("INFO"))
+        defaultNode = defaultNode.set("@message", JsonNodeFactory.instance.textNode(text))
+
+
+        var logText = text
+        var tooLarge: Boolean = false
+        thisLogger().info("Log text length: ${text.length}, contentType: $contentType")
+        if (text.length > (8000) && text.contains("@timestamp")) {
+            thisLogger().warn("Log text is too large to parse: characters")
+            tooLarge = true
+            val defaultText = """{"@timestamp": "${dateFormat.format(Date())}","level": "INFO","message": "Log too large to parse"}"""
+            logText = defaultText
+        }
+
+        if (parseJson(logText) == null)
+            thisLogger().debug("Log text is not a valid JSON: $logText")
+
+        val (node, suffixWhitespaces) = parseJson(logText) ?: return null
+        thisLogger().debug("Parsed JSON node: $node")
 
         val timestamp = extractTimestamp(node)
         val level = extractLevel(node)
@@ -96,13 +120,9 @@ class MyConsoleInputFilter(
                 }
             }
         }
-//        if (jsonPartsPrettyString.isNotEmpty()) {
-//            jsonPartsPrettyString = jsonPartsPrettyString.trim()
-//            jsonPartsPrettyString = "$jsonPartsPrettyString$suffixWhitespaces"
-//        }// Adding a space at the end of line makes a folding marker look better.
 
         var prettyJsonString = prettyPrintJson(node)
-        val jsonString = "$prettyJsonString$jsonPartsPrettyString$xmlPrettyPrintString"
+        val jsonString = if (tooLarge) text else "$prettyJsonString$jsonPartsPrettyString$xmlPrettyPrintString"
         prettyJsonString = ""
         jsonPartsPrettyString = ""
         xmlPrettyPrintString = ""
