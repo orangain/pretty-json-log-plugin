@@ -87,7 +87,7 @@ class MyConsoleInputFilter(
         // - When stackTrace is null or empty, we don't want to add an extra newline.
         // - When stackTrace ends with a newline, trimming the last newline makes a folding marker look better.
         val coloredMessage = if (!tooLarge) "$level: $message\n${stackTrace ?: ""}".trimEnd('\n')
-            else "$level: ${extractMessageFromText(text)}".trimEnd('\n')
+            else "$level: ${extractFieldsFromText(text)}".trimEnd('\n')
 
         var xmlPrettyPrintString = ""
         if (message != null) {
@@ -101,11 +101,11 @@ class MyConsoleInputFilter(
                 var xmlPString = prettifyXml(xmlString)
                 xmlPString = xmlPString.replace(Regex("\n[\\s]*\n"), "\n")
                 xmlPString = xmlPString.trimEnd('\n')
-                xmlPrettyPrintString +=  if (xmlPrettyPrintString.isEmpty()) xmlPString else "\n$xmlPString"
+                xmlPrettyPrintString +=  if (xmlPrettyPrintString.isEmpty()) xmlPString else "\n${xmlPString.trim()}"
             }
             if (xmlPrettyPrintString.isNotEmpty()) {
-                xmlPrettyPrintString = xmlPrettyPrintString.trim()
-            }// Adding a space at the end of line makes a folding marker look better.
+                xmlPrettyPrintString = "\n${xmlPrettyPrintString.trim()}"
+            }
         }
 
         var jsonPartsPrettyString = ""
@@ -116,13 +116,17 @@ class MyConsoleInputFilter(
                     val jString = group?.value.toString()
                     val (jNode, jSuffixWhitespaces) = parseJson(jString) ?: break
                     val jsonPString = prettyPrintJson(jNode)
-                    jsonPartsPrettyString += if (jsonPartsPrettyString.isEmpty()) jsonPString else "\n$jsonPString"
+                    jsonPartsPrettyString += if (jsonPartsPrettyString.isEmpty()) jsonPString else "\n${jsonPString.trim()}"
                 }
             }
+        }
+        if (jsonPartsPrettyString.isNotEmpty()) {
+            jsonPartsPrettyString = "\n${jsonPartsPrettyString.trim()}"
         }
 
         var prettyJsonString = prettyPrintJson(node)
         val jsonString = if (tooLarge) text else "$prettyJsonString$jsonPartsPrettyString$xmlPrettyPrintString"
+
         prettyJsonString = ""
         jsonPartsPrettyString = ""
         xmlPrettyPrintString = ""

@@ -6,6 +6,7 @@ import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
 import io.github.orangain.prettyjsonlog.json.isPartOfPrettyJson
+import io.github.orangain.prettyjsonlog.json.isPartOfPrettyXml
 import io.github.orangain.prettyjsonlog.service.EphemeralStateService
 
 class MyConsoleFolding : ConsoleFolding() {
@@ -20,7 +21,7 @@ class MyConsoleFolding : ConsoleFolding() {
         if (!isEnabled(project)) {
             return false
         }
-        return isPartOfPrettyJson(line)
+        return isPartOfPrettyJson(line) || isPartOfPrettyXml(line)
     }
 
     override fun isEnabledForConsole(consoleView: ConsoleView): Boolean {

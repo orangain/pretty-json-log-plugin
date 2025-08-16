@@ -38,7 +38,7 @@ fun extractMessage(node: JsonNode): String? {
     return  extractedMessage
 }
 
-fun extractMessageFromText(text: String): String? {
+fun extractFieldsFromText(text: String): String? {
     var extractedMessage: String? = ""
 
     val messageConfig = AppSettings.getInstance().state?.messageFields
