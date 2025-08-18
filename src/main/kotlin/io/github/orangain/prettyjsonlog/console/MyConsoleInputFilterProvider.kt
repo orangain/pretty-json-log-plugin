@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
+import io.github.orangain.prettyjsonlog.json.*
+import com.fasterxml.jackson.databind.JsonNode
 
 // We use ConsoleDependentInputFilterProvider instead of ConsoleInputFilterProvider because we need to access
 // ConsoleView and Project in the filter.
@@ -109,14 +111,15 @@ class MyConsoleInputFilter(
         }
 
         var jsonPartsPrettyString = ""
-        val jsonParts = message?.let { jsonPartPattern.findAll(it, 0) }
-        if (jsonParts != null) {
-            for(item in jsonParts.iterator()) {
-                for(group in item.groups) {
-                    val jString = group?.value.toString()
-                    val (jNode, jSuffixWhitespaces) = parseJson(jString) ?: break
-                    val jsonPString = prettyPrintJson(jNode)
-                    jsonPartsPrettyString += if (jsonPartsPrettyString.isEmpty()) jsonPString else "\n${jsonPString.trim()}"
+        if (!message.isNullOrEmpty()) {
+            val jsonElements = extractJsonElements(message)
+//            println("Found ${jsonElements.size} valid JSON element(s):")
+            jsonElements.forEach {
+                thisLogger().debug("Found valid JSON element: $it")
+                val jsonNode: JsonNode? = getJsonNode(it.toString())
+                if (jsonNode != null) {
+                    val jsonPString = prettyPrintJson(jsonNode)
+                    jsonPartsPrettyString += if (jsonPartsPrettyString.isEmpty()) jsonPString else "\n$jsonPString"
                 }
             }
         }
