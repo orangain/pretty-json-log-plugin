@@ -25,6 +25,9 @@ fun extractMessage(node: JsonNode): String? {
                 if (currNode.has(field)) {
                     valNode = currNode.get(field)
                     currNode = valNode
+                } else {
+                    valNode = null
+                    break
                 }
             }
             if(valNode!=null && valNode.asText().isNotEmpty()) {

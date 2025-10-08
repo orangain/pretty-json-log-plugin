@@ -1,9 +1,14 @@
 package io.github.orangain.prettyjsonlog.logentry
 
+import io.github.orangain.prettyjsonlog.AppSettings
+import io.github.orangain.prettyjsonlog.AppSettings.State
 import io.github.orangain.prettyjsonlog.json.parseJson
 import junit.framework.TestCase
-import org.junit.Ignore
 import java.time.Instant
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkStatic
+
 
 private data class ExtractParam(
     val description: String,
@@ -167,20 +172,33 @@ class ExtractTest : TestCase() {
         }
     }
 
-//    fun testExtractMessage() {
-//        params.forEach { param ->
-//            val (node, _) = parseJson(param.json)!!
-//            val actual = extractMessage(node)
-//            println(actual)
-//            assertEquals(param.description, param.expectedMessage, actual)
-//        }
-//    }
+    fun testExtractMessage() {
+        params.forEach { param ->
+            val (node, _) = parseJson(param.json)!!
+            val mockAppSetting: AppSettings = mockk()
+            val state = State()
+            state.messageFields = "message, msg, @m, error.message, RenderedMessage"
+            every { mockAppSetting.state } returns state
+            mockkStatic(AppSettings::class)
+            every { AppSettings.getInstance() } returns mockAppSetting
+            val actual = extractMessage(node)
+            println(actual)
+            assertEquals(param.description, param.expectedMessage, actual)
+        }
+    }
 
-//    fun testStackTrace() {
-//        params.forEach { param ->
-//            val (node, _) = parseJson(param.json)!!
-//            val actual = extractStackTrace(node)
-//            assertEquals(param.description, param.expectedStackTrace, actual)
-//        }
-//    }
+    fun testStackTrace() {
+        params.filter{ it.expectedStackTrace != null }.forEach { param ->
+            val (node, _) = parseJson(param.json)!!
+            val mockAppSetting: AppSettings = mockk()
+            val state = State()
+            state.errorFields = "stack_trace, error.stack_trace, exception, @x, error, err.stack, Exception"
+            every { mockAppSetting.state } returns state
+            mockkStatic(AppSettings::class)
+            every { AppSettings.getInstance() } returns mockAppSetting
+            val actual = extractStackTrace(node)
+            println(actual)
+            assertEquals(param.description, param.expectedStackTrace, actual)
+        }
+    }
 }

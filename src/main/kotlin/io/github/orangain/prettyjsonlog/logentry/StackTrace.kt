@@ -17,20 +17,27 @@ fun extractStackTrace(node: JsonNode): String? {
 
         for (key in messageConfig.split(',')) {
             val keyValue = key.trim()
-            var currNode = node
-            var valNode:JsonNode? = null
 
-            for (field in keyValue.split('.')) {
-                if (currNode.has(field)) {
-                    val value = currNode.get(field)
-                    valNode = value
+            if (node.has(keyValue)) {
+                extractedMessage += node.get(keyValue).asText()
+            } else {
+                var currNode = node
+                var valNode: JsonNode? = null
+                for (field in (keyValue.split('.'))) {
+                    if (currNode.has(field)) {
+                        valNode = currNode.get(field)
+                        currNode = valNode
+                    } else {
+                        valNode = null
+                        break
+                    }
                 }
-            }
-            if(valNode!=null) {
-                if (!extractedMessage.isNullOrEmpty())
-                    extractedMessage += " \n "
-                extractedMessage += valNode.asText()
-                valNode = null
+                if (valNode != null) {
+                    if (!extractedMessage.isNullOrEmpty())
+                        extractedMessage += " \n "
+                    extractedMessage += valNode.asText()
+                    valNode = null
+                }
             }
         }
     }
