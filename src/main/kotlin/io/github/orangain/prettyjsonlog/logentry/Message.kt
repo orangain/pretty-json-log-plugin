@@ -18,6 +18,13 @@ fun extractMessage(node: JsonNode): String? {
 
         for (key in messageConfig.split(',')) {
             val keyValue = key.trim()
+
+            if (node.has(keyValue)) {
+                extractedMessage += node.get(keyValue).asText()
+                if (extractedMessage.isNotEmpty())
+                    return extractedMessage
+            }
+
             var currNode = node
             var valNode:JsonNode? = null
 

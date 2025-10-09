@@ -20,24 +20,26 @@ fun extractStackTrace(node: JsonNode): String? {
 
             if (node.has(keyValue)) {
                 extractedMessage += node.get(keyValue).asText()
-            } else {
-                var currNode = node
-                var valNode: JsonNode? = null
-                for (field in (keyValue.split('.'))) {
-                    if (currNode.has(field)) {
-                        valNode = currNode.get(field)
-                        currNode = valNode
-                    } else {
-                        valNode = null
-                        break
-                    }
-                }
-                if (valNode != null) {
-                    if (!extractedMessage.isNullOrEmpty())
-                        extractedMessage += " \n "
-                    extractedMessage += valNode.asText()
+                if (extractedMessage.isNotEmpty())
+                    return extractedMessage
+            }
+
+            var currNode = node
+            var valNode: JsonNode? = null
+            for (field in (keyValue.split('.'))) {
+                if (currNode.has(field)) {
+                    valNode = currNode.get(field)
+                    currNode = valNode
+                } else {
                     valNode = null
+                    break
                 }
+            }
+            if (valNode != null) {
+                if (!extractedMessage.isNullOrEmpty())
+                    extractedMessage += " \n "
+                extractedMessage += valNode.asText()
+                valNode = null
             }
         }
     }
