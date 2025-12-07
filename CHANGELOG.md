@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.6.0] - 2025-04-24
+
+### Added
+
+- Support for IntelliJ IDEA 2025.1
+
 ## [0.5.0] - 2024-10-17
 
 ### Added
@@ -52,7 +58,8 @@
 - Initial scaffold created
   from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
-[Unreleased]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.3.0...v0.4.0
