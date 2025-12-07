@@ -22,6 +22,13 @@ in the console. It has the following features:
   [Pino](https://github.com/pinojs/pino), [log/slog](https://pkg.go.dev/log/slog),
   [Cloud Logging](https://cloud.google.com/logging/docs/structured-logging), etc. with no additional configuration or
   software.
+- **AppSettings to select custom fields**: Will parse out the selected log json fields and display them in the log view, so you can easily see the important
+  information without having to expand the JSON. ![AppSettings](media/AppSetting.png)![ParsedConfiguredFields](media/ParsedConfiguredFields.png)
+- **Nested fields**: you can configure to display the nested fields in Log view (e.g sMsg.msg below). ![NestedFieldsInLogObject](media/NestedJsonInLogObject.png)
+- **Json/Xml in json values**: if the selected log json fields contain strings containing valid JSON or xml, it will also pretty print those
+  in the collapsed log view.![PrettyPrintJsonXmlInParsedFields](media/PrettyPrintJsonXmlInParsedFields.png)
+- **Handle large logs**: if the log message is too large, its unable to pretty print but it will try to parse json with just text match partially, so you can still see the
+  important information without having to expand the JSON.![img_1.png](media/TooLargeToPrettyPrintPartiallyParsed.png)
 
 This plugin is useful when you are developing a modern system that outputs logs in JSON format. You no longer need to
 switch log formats between production and local development environments.
