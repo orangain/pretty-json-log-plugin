@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+- Support for IntelliJ IDEA 2025.3, reported by @acemrek
+- Support for ECS (Elastic Common Schema) nested format, reported by @PeterJakubik
+
 ## [0.6.0] - 2025-04-24
 
 ### Added
