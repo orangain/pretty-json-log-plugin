@@ -40,9 +40,10 @@ enum class Level {
 }
 
 private val levelKeys = listOf("level", "severity", "log.level", "@l", "Level")
+private val levelExtractors = buildNodeExtractors(levelKeys)
 
 fun extractLevel(node: JsonNode): Level? {
-    return levelKeys.firstNotNullOfOrNull { node.get(it) }?.let { levelNode ->
+    return levelExtractors.firstNotNullOfOrNull { it(node) }?.let { levelNode ->
         if (levelNode.isNumber) {
             Level.fromInt(levelNode.asInt())
         } else {
