@@ -2,14 +2,15 @@ package io.github.orangain.prettyjsonlog.logentry
 
 import com.fasterxml.jackson.databind.JsonNode
 
-private val stackTraceNodeExtractors: List<NodeExtractor> = listOf(
-    { it.get("stack_trace") },
-    { it.get("exception") },
-    { it.get("error.stack_trace") },
-    { it.get("err")?.get("stack") },
-    { it.get("@x") },
-    { it.get("Exception") },
+private val stackTraceKeys = listOf(
+    "stack_trace",
+    "exception",
+    "error.stack_trace",
+    "err.stack",
+    "@x",
+    "Exception"
 )
+private val stackTraceNodeExtractors = buildNodeExtractors(stackTraceKeys)
 
 fun extractStackTrace(node: JsonNode): String? {
     return stackTraceNodeExtractors.firstNotNullOfOrNull { it(node) }?.asText()

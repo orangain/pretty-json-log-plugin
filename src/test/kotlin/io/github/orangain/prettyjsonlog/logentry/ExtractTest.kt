@@ -93,26 +93,23 @@ private val params = listOf(
     // https://logging.apache.org/log4j/2.x/manual/json-template-layout.html
     ExtractParam(
         "Log4j2 with EcsLayout.json",
-        """{"@timestamp":"2024-07-15T03:36:52.899Z","ecs.version":"1.2.0","error.message":null,"error.stack_trace":"javax.transaction.xa.XAException\n\tat org.apache.activemq.artemis.core.protocol.core.impl.ActiveMQSessionContext.xaCommit(ActiveMQSessionContext.java:495)\n\tat org.apache.activemq.artemis.core.client.impl.ClientSessionImpl.commit(ClientSessionImpl.java:1624)\n\tat com.atomikos.datasource.xa.XAResourceTransaction.commit(XAResourceTransaction.java:557)\n\tat com.atomikos.icatch.imp.CommitMessage.send(CommitMessage.java:52)\n\tat com.atomikos.icatch.imp.CommitMessage.send(CommitMessage.java:23)\n\tat com.atomikos.icatch.imp.PropagationMessage.submit(PropagationMessage.java:67)\n\tat com.atomikos.icatch.imp.Propagator${'$'}PropagatorThread.run(Propagator.java:63)\n\tat com.atomikos.icatch.imp.Propagator.submitPropagationMessage(Propagator.java:42)\n\tat com.atomikos.icatch.imp.HeurHazardStateHandler.onTimeout(HeurHazardStateHandler.java:83)\n\tat com.atomikos.icatch.imp.CoordinatorImp.alarm(CoordinatorImp.java:650)\n\tat com.atomikos.timing.PooledAlarmTimer.notifyListeners(PooledAlarmTimer.java:95)\n\tat com.atomikos.timing.PooledAlarmTimer.run(PooledAlarmTimer.java:82)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor${'$'}Worker.run(ThreadPoolExecutor.java:642)\n\tat java.base/java.lang.Thread.run(Thread.java:1583)\n","error.type":"javax.transaction.xa.XAException","log.level":"WARN","log.logger":"com.atomikos.datasource.xa.XAResourceTransaction","message": "XA resource 'jms': commit for XID '27726F6F742D6170706C69636174696F6E27313732303738363038353131323031303130:27726F6F742D6170706C69636174696F6E27393136' raised -4: the supplied XID is invalid for this XA resource","process.thread.name":"Atomikos:5"}""",
+        """{"@timestamp":"2024-07-15T03:36:52.899Z","ecs.version":"1.2.0","error.message":null,"error.stack_trace":"javax.transaction.xa.XAException\n\tat org.apache.activemq.artemis.core.protocol.core.impl.ActiveMQSessionContext.xaCommit(ActiveMQSessionContext.java:495)\n","error.type":"javax.transaction.xa.XAException","log.level":"WARN","log.logger":"com.atomikos.datasource.xa.XAResourceTransaction","message": "XA resource 'jms': commit for XID '27726F6F742D6170706C69636174696F6E27313732303738363038353131323031303130:27726F6F742D6170706C69636174696F6E27393136' raised -4: the supplied XID is invalid for this XA resource","process.thread.name":"Atomikos:5"}""",
         Timestamp.Parsed(Instant.parse("2024-07-15T03:36:52.899Z")),
         Level.WARN,
         "XA resource 'jms': commit for XID '27726F6F742D6170706C69636174696F6E27313732303738363038353131323031303130:27726F6F742D6170706C69636174696F6E27393136' raised -4: the supplied XID is invalid for this XA resource",
         "javax.transaction.xa.XAException\n" +
-                "\tat org.apache.activemq.artemis.core.protocol.core.impl.ActiveMQSessionContext.xaCommit(ActiveMQSessionContext.java:495)\n" +
-                "\tat org.apache.activemq.artemis.core.client.impl.ClientSessionImpl.commit(ClientSessionImpl.java:1624)\n" +
-                "\tat com.atomikos.datasource.xa.XAResourceTransaction.commit(XAResourceTransaction.java:557)\n" +
-                "\tat com.atomikos.icatch.imp.CommitMessage.send(CommitMessage.java:52)\n" +
-                "\tat com.atomikos.icatch.imp.CommitMessage.send(CommitMessage.java:23)\n" +
-                "\tat com.atomikos.icatch.imp.PropagationMessage.submit(PropagationMessage.java:67)\n" +
-                "\tat com.atomikos.icatch.imp.Propagator\$PropagatorThread.run(Propagator.java:63)\n" +
-                "\tat com.atomikos.icatch.imp.Propagator.submitPropagationMessage(Propagator.java:42)\n" +
-                "\tat com.atomikos.icatch.imp.HeurHazardStateHandler.onTimeout(HeurHazardStateHandler.java:83)\n" +
-                "\tat com.atomikos.icatch.imp.CoordinatorImp.alarm(CoordinatorImp.java:650)\n" +
-                "\tat com.atomikos.timing.PooledAlarmTimer.notifyListeners(PooledAlarmTimer.java:95)\n" +
-                "\tat com.atomikos.timing.PooledAlarmTimer.run(PooledAlarmTimer.java:82)\n" +
-                "\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)\n" +
-                "\tat java.base/java.util.concurrent.ThreadPoolExecutor\$Worker.run(ThreadPoolExecutor.java:642)\n" +
-                "\tat java.base/java.lang.Thread.run(Thread.java:1583)\n",
+                "\tat org.apache.activemq.artemis.core.protocol.core.impl.ActiveMQSessionContext.xaCommit(ActiveMQSessionContext.java:495)\n",
+    ),
+    // https://docs.spring.io/spring-boot/reference/features/logging.html#features.logging.structured.ecs
+    ExtractParam(
+        "Spring Boot ECS nested format",
+        """{"@timestamp":"2025-08-30T13:30:22.880349487Z","log":{"level":"ERROR","logger":"com.example.spring.logging.HelloController"},"process":{"pid":57692,"thread":{"name":"http-nio-8080-exec-2"}},"service":{"name":"structured-logging","node":{}},"message":"exception","error":{"type":"java.lang.RuntimeException","message":"Oops!!","stack_trace":"java.lang.RuntimeException: Oops!!\n\tat com.example.spring.logging.HelloController.message(HelloController.java:27)\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\n"},"ecs":{"version":"8.11"}}""",
+        Timestamp.Parsed(Instant.parse("2025-08-30T13:30:22.880349487Z")),
+        Level.ERROR,
+        "exception",
+        "java.lang.RuntimeException: Oops!!\n" +
+                "\tat com.example.spring.logging.HelloController.message(HelloController.java:27)\n" +
+                "\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\n",
     ),
     // https://pkg.go.dev/go.uber.org/zap
     ExtractParam(

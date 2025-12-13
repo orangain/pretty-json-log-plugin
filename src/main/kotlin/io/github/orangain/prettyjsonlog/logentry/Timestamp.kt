@@ -50,9 +50,10 @@ sealed interface Timestamp {
 }
 
 private val timestampKeys = listOf("timestamp", "time", "@timestamp", "ts", "@t", "Timestamp")
+private val timestampExtractors = buildNodeExtractors(timestampKeys)
 
 fun extractTimestamp(node: JsonNode): Timestamp? {
-    val timestampNode = timestampKeys.firstNotNullOfOrNull { node.get(it) }
+    val timestampNode = timestampExtractors.firstNotNullOfOrNull { it(node) }
     if (timestampNode != null) {
         return if (timestampNode.isNumber) {
             // We assume that the number is a Unix timestamp in seconds, milliseconds, microseconds, or nanoseconds.
