@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.7.0] - 2025-12-13
+
 - Support for IntelliJ IDEA 2025.3, reported by @acemrek
 - Support for ECS (Elastic Common Schema) nested format, reported by @PeterJakubik
 
@@ -61,7 +63,8 @@
 - Initial scaffold created
   from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
-[Unreleased]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.4.0...v0.4.1
