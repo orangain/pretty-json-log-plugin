@@ -87,7 +87,12 @@ Thanks to the [IntelliJ Platform Plugin Template][template], I was able to quick
 
 ### How to release
 
-1. Update `pluginVersion` in `gradle.properties` and merge it into the main branch.
-2. Publish a release note with the new version.
-3. Approve deployment.
-4. The new version will be reviewed by JetBrains and if there are no problems, it will be published in Marketplace.
+1. Human: Add change logs to `CHANGELOG.md` under the `[Unreleased]` section. (This step can be done when making changes.)
+2. Human: Update `pluginVersion` in `gradle.properties` and merge it into the main branch.
+3. CI/CD workflow: Create a GitHub release draft for the new version automatically.
+4. Human: Publish the release note.
+5. CI/CD workflow: Start deployment workflow automatically, but it will wait for human approval.
+6. Human: Approve deployment in [Actions page](https://github.com/orangain/pretty-json-log-plugin/actions).
+7. CI/CD workflow: Deploy the new version to JetBrains Marketplace and create a PR to update CHANGELOG.md.
+8. Human: Merge the PR to update `CHANGELOG.md`.
+9. JetBrains: The new version will be reviewed by JetBrains and if there are no problems, it will be published in Marketplace.
