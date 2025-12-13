@@ -114,6 +114,17 @@ private val params = listOf(
                 "\tat java.base/java.util.concurrent.ThreadPoolExecutor\$Worker.run(ThreadPoolExecutor.java:642)\n" +
                 "\tat java.base/java.lang.Thread.run(Thread.java:1583)\n",
     ),
+    // https://docs.spring.io/spring-boot/reference/features/logging.html#features.logging.structured.ecs
+    ExtractParam(
+        "Spring Boot ECS nested format",
+        """{"@timestamp":"2025-08-30T13:30:22.880349487Z","log":{"level":"ERROR","logger":"com.example.spring.logging.HelloController"},"process":{"pid":57692,"thread":{"name":"http-nio-8080-exec-2"}},"service":{"name":"structured-logging","node":{}},"message":"exception","error":{"type":"java.lang.RuntimeException","message":"Oops!!","stack_trace":"java.lang.RuntimeException: Oops!!\n\tat com.example.spring.logging.HelloController.message(HelloController.java:27)\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\n"},"ecs":{"version":"8.11"}}""",
+        Timestamp.Parsed(Instant.parse("2025-08-30T13:30:22.880349487Z")),
+        Level.ERROR,
+        "exception",
+        "java.lang.RuntimeException: Oops!!\n" +
+                "\tat com.example.spring.logging.HelloController.message(HelloController.java:27)\n" +
+                "\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\n",
+    ),
     // https://pkg.go.dev/go.uber.org/zap
     ExtractParam(
         "Zap Logger Production Default",
