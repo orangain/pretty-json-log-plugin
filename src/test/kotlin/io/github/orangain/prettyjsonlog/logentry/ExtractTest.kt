@@ -90,6 +90,14 @@ private val params = listOf(
         "My message",
         null,
     ),
+    ExtractParam(
+      "Logback JSON Encoder with formattedMessage",
+      """{"arguments":["POST","/pages/imports/operationImport.jsf","362","5.12.0"],"context":{"birthdate":1769621573072,"name":"default","properties":{}},"formattedMessage":"HTTP request: POST /pages/imports/operationImport.jsf | Execution time : 362 ms | Version : 5.12.0","level":"INFO","markers":["PERFORMANCE"],"mdc":{"HTTP_REQUEST_ID":"62f25417-35ac-4681-b084-dae260890507","HTTP_REQUEST_REMOTE_HOST":"127.0.0.1","HTTP_REQUEST_SESSION_ID":"F41D3F64129B4CEE15E84988F5F4C5B4","HTTP_REQUEST_URI":"/pages/imports/operationImport.jsf","PROCESS_ID":"27988@SPK-nDgO7wFUBaw"},"message":"HTTP request: {} {} | Execution time : {} ms | Version : {}","nanoseconds":225672400,"sequenceNumber":0,"threadName":"http-nio-8080-exec-10","throwable":null,"timestamp":1769621821225}""",
+        Timestamp.Parsed(Instant.parse("2026-01-28T17:37:01.225Z")),
+        Level.INFO,
+        "HTTP request: POST /pages/imports/operationImport.jsf | Execution time : 362 ms | Version : 5.12.0",
+        null,
+    ),
     // https://logging.apache.org/log4j/2.x/manual/json-template-layout.html
     ExtractParam(
         "Log4j2 with EcsLayout.json",
