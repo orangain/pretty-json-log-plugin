@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- Support for Logback JsonEncoder with formattedMessage, reported by @unkle-jb
+
 ## [0.7.0] - 2025-12-13
 
 - Support for IntelliJ IDEA 2025.3, reported by @acemrek
