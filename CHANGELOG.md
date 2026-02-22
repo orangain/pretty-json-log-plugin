@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-02-21
+
 - Support for Logback JsonEncoder with formattedMessage, reported by @unkle-jb
 
 ## [0.7.0] - 2025-12-13
@@ -65,7 +67,8 @@
 - Initial scaffold created
   from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
-[Unreleased]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/orangain/pretty-json-log-plugin/compare/v0.4.1...v0.5.0
