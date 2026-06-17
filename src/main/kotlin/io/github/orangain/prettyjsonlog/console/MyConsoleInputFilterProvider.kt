@@ -9,7 +9,9 @@ import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Pair
 import com.intellij.psi.search.GlobalSearchScope
-import io.github.orangain.prettyjsonlog.json.parseJson
+import com.fasterxml.jackson.databind.JsonNode
+import io.github.orangain.prettyjsonlog.json.LogLineReassembler
+import io.github.orangain.prettyjsonlog.json.ParseResult
 import io.github.orangain.prettyjsonlog.json.prettyPrintJson
 import io.github.orangain.prettyjsonlog.logentry.*
 import io.github.orangain.prettyjsonlog.service.EphemeralStateService
@@ -36,16 +38,34 @@ class MyConsoleInputFilter(
     private val consoleView: ConsoleView,
     private val project: Project
 ) : InputFilter {
+    // A single log line longer than the console read buffer (~8 KB) is delivered here in multiple
+    // fragments, so we reassemble it before parsing. See LogLineReassembler for details.
+    private val reassembler = LogLineReassembler()
+
     override fun applyFilter(
         text: String,
         contentType: ConsoleViewContentType
     ): MutableList<Pair<String, ConsoleViewContentType>>? {
         thisLogger().debug("contentType: $contentType, applyFilter: $text")
         if (!isEnabled()) {
+            // Flush any in-progress buffer so toggling formatting off never drops text.
+            reassembler.drain()?.let { return mutableListOf(Pair(it + text, contentType)) }
             return null
         }
-        val (node, suffixWhitespaces) = parseJson(text) ?: return null
 
+        return when (val result = reassembler.feed(text)) {
+            is ParseResult.Complete -> format(result.node, result.suffixWhitespaces, contentType)
+            is ParseResult.Passthrough -> mutableListOf(Pair(result.text, contentType))
+            ParseResult.Buffering -> mutableListOf() // Empty list suppresses this fragment until the line completes.
+            ParseResult.NotJson -> null
+        }
+    }
+
+    private fun format(
+        node: JsonNode,
+        suffixWhitespaces: String,
+        contentType: ConsoleViewContentType
+    ): MutableList<Pair<String, ConsoleViewContentType>> {
         val timestamp = extractTimestamp(node)
         val level = extractLevel(node)
         val message = extractMessage(node)
