@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Format JSON log lines longer than the IntelliJ console read buffer (~8 KB), which were previously printed unformatted because the IDE delivers them to the filter in multiple fragments
+
 ## [0.8.0] - 2026-02-21
 
 - Support for Logback JsonEncoder with formattedMessage, reported by @unkle-jb
